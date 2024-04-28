@@ -1,0 +1,287 @@
+<style>
+  @media (max-width: 768px) {
+    .ecommerce-gallery-main-img {
+      max-height: 70vh;
+    
+    }
+    .secondary-img {
+      height: 70px; /* Adjusts secondary images height on small devices */
+      object-fit: cover; /* Ensures the image covers the area, may clip the image */
+    }
+  }
+
+  /* For larger screens, you might want to set a different fixed height for secondary images */
+  @media (min-width: 769px) {
+    .secondary-img {
+      height: 100px; /* Example height for larger screens */
+      object-fit: cover;
+    }
+  }
+</style>
+<ngx-spinner bdColor = "rgba(0, 0, 0, 0.8)" size = "medium" color = "#fff" type = "square-jelly-box" [fullScreen] = "true"><p style="color: white" > Loading... </p></ngx-spinner>
+
+<div class="layout" [dir]="'dir'|translate">
+
+<body >
+  <div class="container-fluid">
+    <div class="row">
+        <div class="col-12 col-md-12 col-lg-4">
+            <div class="ecommerce-gallery">
+                <div class="row py-3 shadow-5">
+                    <!-- Main Image -->
+                    <div class="col-12 mb-1 ">
+                        <div class="lightbox">
+                            <!-- Bind main image source to 'mainImageUrl' -->
+                            <img [src]="mainImageUrl | safeBase64" alt="Gallery image 1" class="w-100 img-fluid"/>
+                        </div>
+                    </div>
+                    <!-- Secondary Images -->
+                    <div class="col-3 mt-1" *ngFor="let image of currentProduct?.productimages; let i = index">
+                        <img [src]="image | safeBase64" (click)="updateMainImage(image)" [alt]="'Gallery image ' + (i + 1)" class="w-100 img-fluid secondary-img"/>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    <div class="col-10 col-md-12 col-lg-4 mt-3 mx-4">
+      <!-- <h4 class="box-title mt-5">Product description</h4> -->
+      <p class="list-group-item brand" >{{'detail.Brand Name'|translate}} : {{ getBrandName(currentProduct)}}</p>
+      <h4 class="list-group-item " style="color: #0f1111;font-size: 24px;">{{ getProductDescription(currentProduct)}}</h4>
+      <span >{{currentProduct.rating}}</span> 
+      @if (currentProduct.rating && currentProduct.rating > 0 && currentProduct.rating <= 1) 
+      {
+        <i class="fas fa-star" style="color:#E67A00;"></i> <i class="far fa-star" style="color:#E67A00;"></i> <i class="far fa-star" style="color:#E67A00;"></i> <i class="far fa-star" style="color:#E67A00;"></i> <i class="far fa-star" style="color:#E67A00;"></i>
+      }
+      @else if (currentProduct.rating && currentProduct.rating > 1 && currentProduct.rating < 2) 
+      {
+        <i class="fas fa-star" style="color:#E67A00;"></i>  <i class="fas fa-star-half-alt" style="color: #E67A00;"></i><i class="far fa-star" style="color:#E67A00;"></i> <i class="far fa-star" style="color:#E67A00;"></i> <i class="far fa-star" style="color:#E67A00;"></i>
+      }
+      @else if (currentProduct.rating && currentProduct.rating == 2) 
+      {
+        <i class="fas fa-star" style="color:#E67A00;"></i> <i class="fas fa-star" style="color:#E67A00;"></i> <i class="far fa-star" style="color:#E67A00;"></i> <i class="far fa-star" style="color:#E67A00;"></i> <i class="far fa-star" style="color:#E67A00;"></i>
+      }
+      @else if (currentProduct.rating && currentProduct.rating > 2 && currentProduct.rating < 3) 
+      {
+        <i class="fas fa-star" style="color:#E67A00;"></i> <i class="fas fa-star" style="color:#E67A00;"></i> <i class="fas fa-star-half-alt" style="color:#E67A00;"></i> <i class="far fa-star" style="color:#E67A00;"></i> <i class="far fa-star" style="color:#E67A00;"></i>
+      }
+      @else if (currentProduct.rating && currentProduct.rating == 3) 
+      {
+        <i class="fas fa-star" style="color:#E67A00;"></i> <i class="fas fa-star" style="color:#E67A00;"></i> <i class="fas fa-star" style="color:#E67A00;"></i> <i class="far fa-star" style="color:#E67A00;"></i> <i class="far fa-star" style="color:#E67A00;"></i>
+      }
+      @else if (currentProduct.rating && currentProduct.rating > 3 && currentProduct.rating < 4) 
+      {
+        <i class="fas fa-star" style="color:#E67A00;"></i> <i class="fas fa-star" style="color:#E67A00;"></i> <i class="fas fa-star" style="color:#E67A00;"></i> <i class="fas fa-star-half-alt" style="color:#E67A00;"></i> <i class="far fa-star" style="color:#E67A00;"></i>
+      }
+      @else if (currentProduct.rating && currentProduct.rating == 4) 
+      {
+        <i class="fas fa-star" style="color:#E67A00;"></i> <i class="fas fa-star" style="color:#E67A00;"></i> <i class="fas fa-star" style="color:#E67A00;"></i> <i class="fas fa-star" style="color:#E67A00;"></i> <i class="far fa-star" style="color:#E67A00;"></i>
+      }
+      @else if (currentProduct.rating && currentProduct.rating == 5) 
+      {
+        <i class="fas fa-star" style="color:#E67A00;"></i> <i class="fas fa-star" style="color:#E67A00;"></i> <i class="fas fa-star" style="color:#E67A00;"></i> <i class="fas fa-star" style="color:#E67A00;"></i> <i class="fas fa-star" style="color:#E67A00;"></i>
+      }
+      @else
+      {
+        <i class="far fa-star" style="color:#E67A00;"></i> <i class="far fa-star" style="color:#E67A00;"></i> <i class="far fa-star" style="color:#E67A00;"></i> <i class="far fa-star" style="color:#E67A00;"></i> <i class="far fa-star" style="color:#E67A00;"></i>
+      }
+      <span class="rating"> {{reviewlength}} {{'detail.ratings'|translate}} </span> <span class="rating">|{{'detail.Search this page'|translate}} </span> <hr>
+      <!-- <h4 class="list-group-item " >{{ getProductName(currentProduct)}}</h4><hr> -->
+      <!-- <h4 class="list-group-item " >{{'detail.Stock quantity'|translate}} : {{ currentProduct.stockQuantity}}</h4><hr> -->
+       
+      @if (currentProduct.stockQuantity === 1)
+      {
+        <p style="color: #B12704; font-size: small;">Only 1 left in stock - order soon.</p>
+      }
+      @else if (currentProduct.stockQuantity === 2)
+      {
+        <p style="color: #B12704; font-size: small;">Only 2 left in stock - order soon.</p>
+      }
+      @else if (currentProduct.stockQuantity === 3)
+      {
+        <p style="color: #B12704; font-size: small;">Only 3 left in stock - order soon.</p>
+      }
+      @else 
+      {
+        <p class="list-group-item " >{{'detail.Stock quantity'|translate}} : {{ currentProduct.stockQuantity}}</p><hr>
+      }
+
+      <h5 class="mt-2">
+        <span>{{'detail.price'|translate}} : <span style="color: #B12704; font-size:large;">EGP {{currentProduct.price}}</span></span>
+        <br> <span>{{'detail.Category'|translate}} :<span style="font-size: 16px;color: black;"> {{getCategoryName(currentProduct)}} </span></span></h5>
+      <span>{{'detail.All prices include VAT'|translate}}.</span>
+      <div class="payment">
+          <div class="paymentchild">
+            <img src="https://m.media-amazon.com/images/G/42/A2I-Convert/mobile/IconFarm/icon-cod._CB638858551_.png">
+               <br>{{'detail.Cash on'|translate}}<br> {{'detail.Delivery'|translate}}  
+               <!-- <br>Cash on<br> Delivery      -->
+          </div>
+          <div class="paymentchild">
+            <img src="https://m.media-amazon.com/images/G/42/A2I-Convert/mobile/IconFarm/icon-returns._CB403797073_.png">
+               <br>15 {{'detail.days'|translate}} <br>    
+              {{'detail.Returnable'|translate}}     
+          </div>
+          <div class="paymentchild">
+            <img src="https://m.media-amazon.com/images/G/42/A2I-Convert/mobile/IconFarm/trust_icon_free_shipping_81px._CB590597072_.png">
+               <br> {{'detail.free'|translate}} <br>   {{'detail.Delivery'|translate}}        
+          </div>
+          <div class="paymentchild">
+            <img src="https://m.media-amazon.com/images/G/42/A2I-Convert/mobile/IconFarm/icon-secure-transaction._CB414468582_.png">
+               <br>{{'detail.transaction'|translate}}<br> {{'detail.Secure'|translate}}           
+          </div>
+          
+      </div>
+        <!-- <h6>{{'detail.Buy with installments and pay EGP 21.43 for 60 months with select banks.'|translate}}</h6> -->
+        <!-- <h4>Item Colors:{{currentProduct.itemscolor}}</h4> -->
+
+        <!-- <p>Rating:{{currentProduct.rating}}</p> -->
+    
+        <hr> 
+      <h3 class="box-title mt-5">{{'detail.Key Highlights'|translate}}</h3>
+      <ul class="list-unstyled">
+          <li><i class="fa fa-check text-success"></i>{{'detail.Sturdy structure'|translate}}</li>
+          <li><i class="fa fa-check text-success"></i>{{'detail.Designed to foster easy portability'|translate}}</li>
+          <!-- <li><i class="fa fa-check text-success"></i>Perfect furniture to flaunt your wonderful collectibles</li> -->
+         <br>
+         <br>
+      </ul>
+  
+        <div class="sponserd">
+           <div class="sponserdimg"> <img src="https://m.media-amazon.com/images/I/71ldVML8AGL._AC_SY879_.jpg"></div>
+           <div class="sponserddetails">
+            {{'detail.Mobil 1 atf 320 transmission liquid oil - 1 liter'|translate}}<br>
+            <i class="fas fa-star" style="color:#E67A00;"></i> <i class="fas fa-star" style="color:#E67A00;"></i> <i class="fas fa-star" style="color:#E67A00;"></i> <i class="fas fa-star" style="color:#E67A00;"></i> <i class="far fa-star" style="color:#E67A00;"></i>19
+            <br><span style="color: #c45500;font-size: 18px;">-14% <sup>EGP</sup>365.00 </span><span style="text-decoration: line-through;">EGP424.00</span>
+           </div>
+        </div>
+        <span> {{'detail.Sponsored'|translate}} <i class="fa-solid fa-message-exclamation"></i></span>
+
+      
+  </div>
+  
+  <div class="last col-md-12 col-lg-2 mt-2 mx-lg-3 " style="width: auto;">
+    <div class="card col-12 ">
+        <ul class="list-group list-group-flush">
+          <li class="list-group-item text-center"><h5><sup>EGP</sup> {{currentProduct.price*Quantity}}<sup>00</sup></h5></li>
+          <li class="list-group-item text-center"> {{'detail.payment details'|translate}}</li>
+          <li class="list-group-item"> <div class="mb-3">
+           
+             <input type="number" [(ngModel)]="Quantity" [value]="Quantity" class="form-control" id="quantityInput" placeholder="Quantity" [max]="ProductQuantity" (change)="updateQuantity()" >
+             <!-- name="Quantity" [(ngModel)]="Quantity"> -->
+          </div>
+        </li>
+        <li class="list-group-item text-center" >  <button [disabled]="!currentProduct || (currentProduct.stockQuantity !== undefined && Quantity > currentProduct.stockQuantity)"  class="btn-buy-now w-100" style="background-color: #f7ca00;border-radius: 12px;" (click)="addToCart(currentProduct,Quantity)" routerLink="/Cart" routerLinkActive="router-link-active"  >{{'detail.Add to Cart'|translate}}</button>
+          <li class="list-group-item text-center" > <button class=" btn-add-to-cart w-100" style="background-color: #fa8900;border-radius: 12px;" *ngIf="!isAddressSubmitted" (click)="gottoAddress()">{{'detail.Buy Now'|translate}}</button>
+          <li class="list-group-item text-center">  <ngx-paypal *ngIf="isAddressSubmitted" [config]="payPalConfig"></ngx-paypal>
+          </li>
+          <!-- <ngx-paypal [config]="payPalConfig"></ngx-paypal> -->
+          <!-- <li class="list-group-item">Vestibulum at eros</li> -->
+        </ul>
+      </div>
+
+</div>
+   <!--related-->
+   <div class="container related">
+    <h4 class="div-title">{{'detail.Related searches'|translate}}</h4>
+    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 rowrelated">
+      <div class="col colrelated" *ngFor="let product of randomProducts" (click)="NavigateToDetails(product.id )">
+        <div class=" cardimg">
+          <img *ngIf="product.productImages && product.productImages.length > 0" [src]="'data:image/jpg;base64,' + product.productImages[0]" >
+        </div>
+        <p class="pdescreption">{{ getProductDescription(product)}}</p>
+        @if (product.rating && product.rating > 0 && product.rating <= 1) 
+        {
+         <i class="fas fa-star" style="color:#E67A00;"></i> <i class="far fa-star" style="color:#E67A00;"></i> <i class="far fa-star" style="color:#E67A00;"></i> <i class="far fa-star" style="color:#E67A00;"></i> <i class="far fa-star" style="color:#E67A00;"></i>
+        }
+        @else if (product.rating && product.rating > 1 && product.rating < 2) 
+        {
+          <i class="fas fa-star" style="color:#E67A00;"></i>  <i class="fas fa-star-half-alt" style="color: #E67A00;"></i><i class="far fa-star" style="color:#E67A00;"></i> <i class="far fa-star" style="color:#E67A00;"></i> <i class="far fa-star" style="color:#E67A00;"></i>
+        }
+        @else if (product.rating && product.rating ==2 ) 
+        {
+          <i class="fas fa-star" style="color:#E67A00;"></i> <i class="fas fa-star" style="color:#E67A00;"></i> <i class="far fa-star" style="color:#E67A00;"></i> <i class="far fa-star" style="color:#E67A00;"></i> <i class="far fa-star" style="color:#E67A00;"></i>
+        }
+        @else if (product.rating && product.rating > 2 && product.rating < 3) 
+        {
+          <i class="fas fa-star" style="color:#E67A00;"></i> <i class="fas fa-star" style="color:#E67A00;"></i> <i class="fas fa-star-half-alt" style="color:#E67A00;"></i> <i class="far fa-star" style="color:#E67A00;"></i> <i class="far fa-star" style="color:#E67A00;"></i>
+        }
+    
+        @else if (product.rating && product.rating ==3) 
+        {
+          <i class="fas fa-star" style="color:#E67A00;"></i> <i class="fas fa-star" style="color:#E67A00;"></i> <i class="fas fa-star" style="color:#E67A00;"></i> <i class="far fa-star" style="color:#E67A00;"></i> <i class="far fa-star" style="color:#E67A00;"></i>
+        }
+        @else if (product.rating && product.rating > 4 && product.rating < 5) 
+        {
+          <i class="fas fa-star" style="color:#E67A00;"></i> <i class="fas fa-star" style="color:#E67A00;"></i> <i class="fas fa-star" style="color:#E67A00;"></i> <i class="fas fa-star-half-alt" style="color:#E67A00;"></i> <i class="fas fa-star" style="color:#E67A00;"></i>
+        }
+        @else if (product.rating && product.rating ==4 ) 
+        {
+          <i class="fas fa-star" style="color:#E67A00;"></i> <i class="fas fa-star" style="color:#E67A00;"></i> <i class="fas fa-star" style="color:#E67A00;"></i> <i class="fas fa-star" style="color:#E67A00;"></i> <i class="far fa-star" style="color:#E67A00;"></i>
+        }
+        @else if (product.rating && product.rating ==5 ) 
+        {
+          <i class="fas fa-star" style="color:#E67A00;"></i> <i class="fas fa-star" style="color:#E67A00;"></i> <i class="fas fa-star" style="color:#E67A00;"></i> <i class="fas fa-star" style="color:#E67A00;"></i> <i class="fas fa-star" style="color:#E67A00;"></i>
+        }
+        @else
+        {      
+          <i class="far fa-star" style="color:#E67A00;"></i> <i class="far fa-star" style="color:#E67A00;"></i> <i class="far fa-star" style="color:#E67A00;"></i> <i class="far fa-star" style="color:#E67A00;"></i> <i class="far fa-star" style="color:#E67A00;"></i>
+        }
+        <span>{{reviewlength}}</span>
+        <p class="pname"><sup>EGP</sup><span style="font-size: 25px;">{{product.price }}</span><sup>00</sup></p>
+      </div>
+    </div>
+  </div>
+  
+  
+ <!--end-->
+
+  <!-- <div class=" SpecialDishes" id="Best">
+    <div class="heading-section ">
+        <span class="subheading">
+          {{'detail.searches related to your history'|translate}}
+        </span>
+       
+    </div>
+
+<div class="Dishes">
+        <div class="Dishescontent">
+            <h2 class="special-number">01.<hr></h2>
+                <div class="dishes-text">
+                  <h3><br>{{'detail.About'|translate}}</h3>
+                                      <p class="pt-3">
+
+                                        {{'detail.ststic1'|translate}}   
+                    </p>
+                </div>
+        </div>
+        <div class="Dishesimg">
+            <img src="https://m.media-amazon.com/images/I/419fgOMRouL._AC_SX679_.jpg" alt="" class="img-fluid shadow w-100">
+        </div>
+</div>
+
+<div class="Dishes">
+        <div class="Dishesimg">
+            <img src="https://m.media-amazon.com/images/I/71UpzMBOMmL._AC_SX679_.jpg" alt="" class="img-fluid shadow w-100">
+        </div>
+
+    <div class="Dishescontent">
+        <!-- <h2 class="special-number">02.<span><hr></span></h2> -->
+        <!-- <h2 class="special-number">02.<span class="hr-container"><hr></span></h2>
+
+            <div class="dishes-text">
+                <h3>{{'detail.About'|translate}} </h3>
+                <p class="pt-3">                       
+                  {{'detail.ststic2'|translate}}   
+
+
+                </p>
+              
+            </div>
+    </div>
+
+</div>
+</div> --> 
+
+
+<app-review ></app-review>
+</div> 
+</div>

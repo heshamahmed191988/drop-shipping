@@ -1,0 +1,28 @@
+
+.parent{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+}
+.dv{
+ 
+  display:flex;
+  border: 2px solid #ddd;
+  margin: 10px;
+  border-radius: 10px;
+  width: 220px;
+
+  
+}
+
+.dv img{
+  width:80px;
+  object-fit: cover;
+}
+.dv button{
+  border: none;
+  background-color:transparent;
+  color: black;
+
+}

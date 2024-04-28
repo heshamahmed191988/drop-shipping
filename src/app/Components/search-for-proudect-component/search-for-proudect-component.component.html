@@ -1,0 +1,254 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!--Font awsom-->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <!--Font Family-->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Protest+Riot&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Honk&family=Indie+Flower&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Honk&family=Indie+Flower&family=Pacifico&display=swap" rel="stylesheet">
+   
+    <link href="https://fonts.googleapis.com/css2?family=Galada&family=Henny+Penny&display=swap" rel="stylesheet">
+
+
+    <!--bootstrap-->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+       <!--animation-->
+       <link
+       rel="stylesheet"
+       href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"
+      />
+      
+   
+    
+</head>
+ <body>
+  <ngx-spinner bdColor = "rgba(0, 0, 0, 0.8)" size = "medium" color = "#fff" type = "square-jelly-box" [fullScreen] = "true"><p style="color: white" > Loading... </p></ngx-spinner>
+
+  <div class="layout" [dir]="'dir'|translate">
+
+  <div class="container-fluid">
+                         <!--select list-->
+        <div class="row row-cols-1 row-cols-md-2 g-4 select" style="height: auto;">
+            <div class="col-md-10" style="margin-top: 0; padding: 0; padding-left: 20px;" >
+              <!-- {{Quant}}  {{'detail.results for'|translate}}"{{searchQuery!}}" -->
+            </div> 
+            <div class="col-md-2 mb-3" style="margin-top: 0; padding-top: 0;"> 
+              <select class="form-select" (change)="onSortChange($event)">
+                  <option value="featured"> {{ 'search.Sort by: Featured' | translate }}</option>
+                  <option value="lowToHigh">{{ 'search.Price: Low to High' | translate }}</option>
+                  <option value="highToLow">{{ 'search.Price: High to Low' | translate }}</option>
+              </select>
+          </div>
+          
+        </div>
+        <hr style="margin: 0px; padding: 0px;">
+                   <!--body-->
+      <div class="row filterparent" style="padding-top: 5px;">
+          <!--first div-->
+          <div class="col-2 details">
+            <p style="margin-bottom: 5px;"> <input type="checkbox" > |{{ 'search.fulfilledByAmazon' | translate }}</p>
+            <!-- <input type="checkbox" >
+            |<span class="Fulfilledspan">{{ 'search.fulfilledByAmazon' | translate }}</span>  -->
+
+            <p style="margin-bottom: 1px; margin-top: 8px;">{{ 'search.eligibleForFreeShipping' | translate }}</p>
+            <input type="checkbox" ><span> &nbsp;{{ 'search.freeShipping' | translate }}</span><br>
+            <span class="Fulfilledspan">{{ 'search.All customers get FREE Shipping on orders shipped by Amazon' | translate }}</span>
+            
+            <p style="margin-bottom: 1px; margin-top: 8px;">{{ 'search.deliveryDay' | translate }}</p>
+            
+            <input type="checkbox" > <span class="Fulfilledspan">&nbsp;{{ 'search.Get It by Tomorrow' | translate }}</span><br>
+       
+             <!---filter by brand-->
+             <span class="filter">{{ 'search.brand' | translate }}</span>
+             <div *ngFor="let brand of brands" class="brand-container">
+               <input name="radioBrand"  type="radio" class="square" (click)="filterByBrand(brand)">
+               <span class="filterb">{{ brand }}</span><br>
+             </div>
+             <!-- Button to clear the brand filter -->
+             <button *ngIf="selectedBrand" (click)="clearBrandFilter()">Clear Brand Filter</button>
+             
+            <!--filter by price-->
+            <p style="margin-bottom: 1px; margin-top: 8px;"><span class="filter" >{{ 'search.Price' | translate }}</span><br>
+            <span (click)="filterByPrice(1, 50,selectedBrand)">{{ 'search.upTo50EGP' | translate }}</span><br>
+            <span (click)="filterByPrice(51, 100,selectedBrand)">{{ 'search.51To100EGP' | translate }}</span><br>
+            <span (click)="filterByPrice(101, 300,selectedBrand)">{{ 'search.101To300EGP' | translate }}</span><br>
+            <span (click)="filterByPrice(301, 1500,selectedBrand)">{{ 'search.301To1500EGP' | translate }}</span><br>
+            <span (click)="filterByPrice(1501, 2500,selectedBrand)">{{ 'search.1501To2500EGP' | translate }}</span><br>
+            <span (click)="filterByPrice(2501, Above_2500,selectedBrand)">{{ 'search.above2500EGP' | translate }}</span><br>
+            <input class="priceinput"  #minButton placeholder="{{ 'search.min' | translate }}" >
+            <input class="priceinput"  #maxButton  placeholder="{{ 'search.max' | translate }}">
+            <button (click)="filterByPrice(+minButton.value,+ maxButton.value,selectedBrand)" class="go">{{ 'search.go' | translate }}</button>
+            </p>    
+                 <!--filter by rating-->
+                   <br><span class="filter">{{ 'search.CustomerReview' | translate }}</span><br>
+                 <span (click)="filterByRating(5)">
+                  <i class="fas fa-star" style="color:#E67A00;"></i> <i class="fas fa-star" style="color:#E67A00;"></i> <i class="fas fa-star" style="color:#E67A00;"></i> <i class="fas fa-star" style="color:#E67A00;"></i> <i class="fas fa-star" style="color:#E67A00;"></i>
+                  {{ 'search.only' | translate }}            </span><br>
+                <span (click)="filterByRating(4)">
+                  <i class="fas fa-star" style="color:#E67A00;"></i> <i class="fas fa-star" style="color:#E67A00;"></i> <i class="fas fa-star" style="color:#E67A00;"></i> <i class="fas fa-star" style="color:#E67A00;"></i> <i class="far fa-star" style="color:#E67A00;"></i>
+                  {{ 'search.&up' | translate }}            </span><br>
+                <span (click)="filterByRating(3)">
+                  <i class="fas fa-star" style="color:#E67A00;"></i> <i class="fas fa-star" style="color:#E67A00;"></i> <i class="fas fa-star" style="color:#E67A00;"></i> <i class="far fa-star" style="color:#E67A00;"></i> <i class="far fa-star" style="color:#E67A00;"></i>
+                  {{ 'search.&up' | translate }}
+                </span><br>
+                <span (click)="filterByRating(2)">
+                  <i class="fas fa-star" style="color:#E67A00;"></i> <i class="fas fa-star" style="color:#E67A00;"></i> <i class="far fa-star" style="color:#E67A00;"></i> <i class="far fa-star" style="color:#E67A00;"></i> <i class="far fa-star" style="color:#E67A00;"></i>
+                  {{ 'search.&up' | translate }}
+                </span><br>
+                <span (click)="filterByRating(1)">
+                  <i class="fas fa-star" style="color:#E67A00;"></i> <i class="far fa-star" style="color:#E67A00;"></i> <i class="far fa-star" style="color:#E67A00;"></i> <i class="far fa-star" style="color:#E67A00;"></i> <i class="far fa-star" style="color:#E67A00;"></i>
+                  {{ 'search.&up' | translate }}
+                </span>
+                <br>       
+          </div>    
+                    <!--end-->
+              <!--secound div--show proudects dive ---->
+          <div class="col-10 showproudects" > 
+            <div *ngIf="noResultsMessage">
+              <p>No results found for '{{ searchQuery }}'.</p>
+              <p>Try checking your spelling or use more general terms.</p>
+            </div>
+            
+            <!-- Your existing product display section goes here -->
+            <div *ngIf="paginatedProducts.length > 0">
+                <div class="row-cols-1 row-cols-md-1" style=" padding: 0px; margin: 0px;">
+                  <h6>{{ 'search.results' | translate }}</h6>
+                  <p style="padding: 0px !important; margin: 0px;"></p>{{ 'search.priceAndDetails' | translate }}
+                </div>     
+            </div>
+                <div class="row row-cols-1 row-cols-md-4 g-4 card1" style="padding-top: 0px;margin-top: 0px;">
+                  <ng-container *ngFor="let product of paginatedProducts; let i = index" >   
+                   
+                    <div class="col " *ngIf="product.stockQuantity !== 0"  >
+                      <div class="card carddetails">
+                          <div class=" cardimg" (click)="NavigateToDetails(product.id )">
+                              <img *ngIf="product.productImages && product.productImages.length > 0" [src]="'data:image/jpg;base64,' + product.productImages[0]" >
+                          </div>
+                          
+                          <div class="card-body" >
+                            <!-- <h2>{{product.stockQuantity}}</h2>  -->
+                            <h5 class="card-title" style="color: #E67A00;">{{ getProductName(product)}}</h5>
+                           
+                            <!-- <h5 class="card-title card-titled" >{{ getProductDescription(product) }}</h5>
+                            -->   
+                            <h5 class="card-title card-titled" [class.expanded]="product.isExpanded" (click)="toggleExpand(product)">{{ getProductDescription(product) }}</h5>
+
+                            <!-- <h5 class="card-title" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{ getProductDescription(product) }}</h5> -->
+
+                            <h5 class="card-title"><sup>EGP</sup> {{ product.price }}<sup>00</sup></h5>                            
+                            <!-- <h5 class="card-title">{{ product.rating }}</h5> -->
+                          
+                            @if (product.rating && product.rating > 0 && product.rating <= 1) 
+                            {
+                              <i class="fas fa-star" style="color:#E67A00;"></i> <i class="far fa-star" style="color:#E67A00;"></i> <i class="far fa-star" style="color:#E67A00;"></i> <i class="far fa-star" style="color:#E67A00;"></i> <i class="far fa-star" style="color:#E67A00;"></i>
+                            }
+                            @else if (product.rating && product.rating > 1 && product.rating < 2) 
+                            {
+                              <i class="fas fa-star" style="color:#E67A00;"></i>  <i class="fas fa-star-half-alt" style="color: #E67A00;"></i><i class="far fa-star" style="color:#E67A00;"></i> <i class="far fa-star" style="color:#E67A00;"></i> <i class="far fa-star" style="color:#E67A00;"></i>
+                            }
+                            @else if (product.rating && product.rating == 2) 
+                            {
+                              <i class="fas fa-star" style="color:#E67A00;"></i> <i class="fas fa-star" style="color:#E67A00;"></i> <i class="far fa-star" style="color:#E67A00;"></i> <i class="far fa-star" style="color:#E67A00;"></i> <i class="far fa-star" style="color:#E67A00;"></i>
+                            }
+                            @else if (product.rating && product.rating > 2 && product.rating < 3) 
+                            {
+                              <i class="fas fa-star" style="color:#E67A00;"></i> <i class="fas fa-star" style="color:#E67A00;"></i> <i class="fas fa-star-half-alt" style="color:#E67A00;"></i> <i class="far fa-star" style="color:#E67A00;"></i> <i class="far fa-star" style="color:#E67A00;"></i>
+                            }
+                            @else if (product.rating && product.rating == 3) 
+                            {
+                              <i class="fas fa-star" style="color:#E67A00;"></i> <i class="fas fa-star" style="color:#E67A00;"></i> <i class="fas fa-star" style="color:#E67A00;"></i> <i class="far fa-star" style="color:#E67A00;"></i> <i class="far fa-star" style="color:#E67A00;"></i>
+                            }
+                            @else if (product.rating && product.rating > 3 && product.rating < 4) 
+                            {
+                              <i class="fas fa-star" style="color:#E67A00;"></i> <i class="fas fa-star" style="color:#E67A00;"></i> <i class="fas fa-star" style="color:#E67A00;"></i> <i class="fas fa-star-half-alt" style="color:#E67A00;"></i> <i class="far fa-star" style="color:#E67A00;"></i>
+                            }
+                            @else if (product.rating && product.rating == 4) 
+                            {
+                              <i class="fas fa-star" style="color:#E67A00;"></i> <i class="fas fa-star" style="color:#E67A00;"></i> <i class="fas fa-star" style="color:#E67A00;"></i> <i class="fas fa-star" style="color:#E67A00;"></i> <i class="far fa-star" style="color:#E67A00;"></i>
+                            }
+                            @else if (product.rating && product.rating == 5) 
+                            {
+                              <i class="fas fa-star" style="color:#E67A00;"></i> <i class="fas fa-star" style="color:#E67A00;"></i> <i class="fas fa-star" style="color:#E67A00;"></i> <i class="fas fa-star" style="color:#E67A00;"></i> <i class="fas fa-star" style="color:#E67A00;"></i>
+                            }
+                            @else
+                            {
+                              <!-- Show empty stars when there is no rating -->
+                              <i class="far fa-star" style="color:#E67A00;"></i> <i class="far fa-star" style="color:#E67A00;"></i> <i class="far fa-star" style="color:#E67A00;"></i> <i class="far fa-star" style="color:#E67A00;"></i> <i class="far fa-star" style="color:#E67A00;"></i>
+                            }
+                            <!--stockQuantity -->
+                            @if (product.stockQuantity === 1)
+                            {
+                              <p style="color: #B12704; font-size: small;">Only 1 left in stock - order soon.</p>
+                            }
+                            @if (product.stockQuantity === 2)
+                            {
+                              <p style="color: #B12704; font-size: small;">Only 2 left in stock - order soon.</p>
+                            }
+                            @if (product.stockQuantity === 3)
+                            {
+                              <p style="color: #B12704; font-size: small;">Only 3 left in stock - order soon.</p>
+                            }
+                            
+                            <p style="color: green;">{{getBrandName(product)}}</p>                        
+                        
+                          </div>
+                      </div>
+                    </div>
+                  </ng-container><br>
+              </div>
+
+              <div class="serchandpagination">
+                <div class="container related">
+                  <h4 class="div-title">Related searches</h4>
+                  <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3">
+                    <div class="col" *ngFor="let product of randomProducts" (click)="NavigateToDetails(product.id )">
+                      <i class="fas fa-search"></i>
+                      <p>{{getProductName(product)}}</p>
+                    </div>
+                  </div>
+                </div>
+                
+                <nav aria-label="Page navigation example" class="mt-4"  [dir]="'dir'|translate">
+                  <ul class="pagination justify-content-center">
+                    <!-- Previous Button -->
+                    <li class="page-item" [class.disabled]="pageNumber === 1">
+                      <a class="page-link" href="javascript:void(0)" (click)="goToPreviousPage()">&laquo; {{ 'search.Previous' | translate }}</a>
+                    </li>
+                    
+                    <!-- Page Numbers -->
+                    <li class="page-item" *ngFor="let page of visiblePageNumbers; let i = index" [class.active]="pageNumber === page">
+                      <a class="page-link" href="javascript:void(0)" (click)="changePage(page)">{{ page }}</a>
+                    </li>
+                    
+                    
+                    <!-- Next Button -->
+                    <li class="page-item"  [class.disabled]="pageNumber === totalPages()">
+                      <a class="page-link" href="javascript:void(0)" (click)="goToNextPage()">{{ 'search.Next' | translate }} &raquo;</a>
+                    </li>
+                  </ul>
+                </nav>
+                
+                
+            </div>
+       </div>
+     </div>
+    <!--end-->
+ </div>
+ <!--end first fluid-->
+ <div>
+  
+ </div>
+ <script>
+  function expandText(element) {
+    element.classList.toggle('expanded');
+  }
+</script>

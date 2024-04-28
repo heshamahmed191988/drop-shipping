@@ -1,0 +1,53 @@
+<ngx-spinner bdColor = "rgba(0, 0, 0, 0.8)" size = "medium" color = "#fff" type = "square-jelly-box" [fullScreen] = "true"><p style="color: white" > Loading... </p></ngx-spinner>
+
+<div class="container col-6 col-xs-12 " style="margin-top: 3rem;">
+  <h1>{{'order.Your orders'|translate}}</h1>
+    <div class="form">
+      <input type="text" class="Searchinput" aria-label="Text input with dropdown button"  placeholder="Search By Order Status" [(ngModel)]="searchTerm" (keyup.enter)="searchByOrderStatus()">
+      <button class="btn "  (click)="searchByOrderStatus()" type="submit" style="margin-right: 8px;">Search Orders</button>
+    </div>
+
+
+        @for (item of filteredOrders ; track item.id) {
+          
+    <div class="parent" style="border:2px solid #ddd; border-radius:5px; margin-bottom:20px;">
+      <div class="img" style="width: 200px;">
+        <img src="https://icons.veryicon.com/png/o/miscellaneous/icondian/icon-order-1.png" alt="" width="100%">
+      </div>
+          <div class="ordertotal" style="padding-top: 30px;">
+        <div class="order">
+        <div style="font-weight: 900;">{{'order.Date Placed'|translate}}<div style="font-weight: 100;margin:0 10px;">{{item.datePlaced|date}}</div></div>
+        <div style="font-weight: 900;">{{'order.Order Status'|translate }}<div style="font-weight: 100; margin:0 40px;">{{item.status}}</div></div>
+        <div style="font-weight: 900;">{{'order.Total'|translate}} <div style="font-weight: 100;margin:0 10px;">{{item.totalPrice}}$</div></div>
+        <div style="font-weight: 900;">{{'order.Total'|translate}} <div style="font-weight: 100;margin:0 10px;">  <img [src]="item.barcodeImageUrl" alt="Barcode Image">
+
+          <div style="font-weight: 900;">{{ 'order.Total' | translate }}
+            <div style="font-weight: 100; margin: 0 10px;">
+              <img [src]="item.barcodeImageUrl | safeBase64" alt="Barcode Image">
+            </div>
+          </div>
+          $</div></div>
+
+      </div>
+      <div class="details">
+      <!-- <h6>{{'order.Ring No-Drill Mount for Ring Video Boorbell'|translate}}</h6> -->
+        <button (click)="details(item.id)" class="btn" >View your item</button>
+      </div>
+      </div>
+      </div>
+
+    }
+    <!-- <h3 class="title">{{'order.Order Item'|translate}}</h3> -->
+  <!-- @for(order of orderdetails ; track order.orderitemid)
+  {
+  <div class="orderitem col-12 col-xs-12">
+    <p>{{'order.Product Name'|translate}} : {{order.productname}}</p>
+    <p>{{'order.Date '|translate}} : {{order.datePlaced|date:'yyyy-MM-dd'}}</p>
+    <p>{{'order.Total Price'|translate}}: {{order.totalPrice}}</p>
+    <p>{{'order.Order Status'|translate}} : {{order.status}}</p>
+    <p>{{'order.Quantity'|translate}} : {{order.quantity}}</p>
+
+  </div>
+  <br/>
+  } -->
+</div>
