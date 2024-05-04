@@ -1,37 +1,14 @@
 <head>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
+
   </head>
   <body>
   <div class="layout mx-0 p-o" [dir]="'dir' | translate">
   
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-        <div class="container-fluid">
-            <a class="navbar-brand" [routerLink]="['/main']"><img class="logo"
-                    src="https://zeevector.com/wp-content/uploads/Amazon-Logo-White@zeevector.png"></a>
-
-                    <div class="input-group select mb-3 d-block d-sm-block d-md-block d-lg-none" style="margin-top: 0px; width: 9%;">
-                        <select class="form-select" aria-label="Default select example" [(ngModel)]="selectedCategoryId"
-                            (change)="onCategoryChange()" style="border-radius: 0;border-bottom-left-radius: 5px;border-top-left-radius: 5px;">
-                            <option value="0">All</option>
-                            <option *ngFor="let category of categories" [value]="category.id">{{ getCategoryName(category) }}
-                            </option>
-                          </select>
-                      </div>
+        <div class="container-fluid ">
       
-                      <div class="in d-flex search-div d-sm-flex d-md-flex d-lg-none" style="display:flex;margin-top: -17px;">
-                          <input [(ngModel)]="searchQuery" type="text" class="Searchinput form-control"
-                              aria-label="Text input with dropdown button" placeholder="Search Amazon.eg"
-                              (keyup.enter)="searchProducts()" style=" max-width:90% !important; border-radius: 0;">
-                          <button class="btn btn-outline-light" (click)="searchProducts()" type="submit"
-                              style="margin-right: 8px;
-                              background-color: #febd69;
-                              border: 0;
-                              border-radius: 0;
-                              border-bottom-right-radius: 5px;
-                              border-top-right-radius: 5px;"><i class="fas fa-search"
-                                  style="color:black;"></i>
-                          </button>
-                      </div>
   
   
             <!-- <a class="link d-lg-none" href="#" style="margin-top: -4vw;"><img width="50" height="50" src="https://img.icons8.com/ios/50/menu-squared-2.png" alt="menu-squared-2"/></a> -->
@@ -40,7 +17,7 @@
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+            <!-- <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 <li class="nav-item">
                     <span class="nav-link">
                         <a class="Deliver" href="#" style="color: white;">
@@ -48,39 +25,17 @@
                             <br><i class="fas fa-map-marker-alt"></i>{{'header.egypt' | translate}}</a>
                     </span>
                 </li>
-            </ul>
+            </ul> -->
   
-                <div class="input-group mb-3 d-none d-sm-none d-md-none d-lg-block" style="margin-top: 0px; width: 9%;">
-                    <select class="form-select" aria-label="Default select example" [(ngModel)]="selectedCategoryId"
-                        (change)="onCategoryChange()" style="border-radius: 0;border-bottom-left-radius: 5px;border-top-left-radius: 5px;">
-                        <option value="0">All</option>
-                        <option *ngFor="let category of categories" [value]="category.id">{{ getCategoryName(category) }}
-                        </option>
-                      </select>
-                  </div>
-  
-                  <div class="in d-none d-sm-none d-md-none d-lg-flex" style="display:flex;margin-top: -17px;">
-                      <input [(ngModel)]="searchQuery" type="text" class="Searchinput form-control"
-                          aria-label="Text input with dropdown button" placeholder="Search Amazon.eg"
-                          (keyup.enter)="searchProducts()" style=" border-radius: 0;">
-                      <button class="btn btn-outline-light" (click)="searchProducts()" type="submit"
-                          style="margin-right: 8px;
-                          background-color: #febd69;
-                          border: 0;
-                          border-radius: 0;
-                          border-bottom-right-radius: 5px;
-                          border-top-right-radius: 5px;"><i class="fas fa-search"
-                              style="color:black;"></i>
-                      </button>
-                  </div>
+ 
   
                   <ul class="navbar-nav" >
-                      <li class="nav-item">
+                      <li class="nav-item"  style="margin-left: 10% !important ;margin-right: 10% !important;">
                           <div class="Flagdiv dropdown">
                               <a class="btn dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
                                   data-bs-toggle="dropdown" aria-expanded="false">
-                                  <img class="flag"
-                                      src="https://upload.wikimedia.org/wikipedia/commons/f/fe/Flag_of_Egypt.svg">
+                                  <!-- <img class="flag"
+                                      src="https://upload.wikimedia.org/wikipedia/commons/f/fe/Flag_of_Egypt.svg"> -->
                                   {{lang | translate}}
                               </a>
                               <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
@@ -90,7 +45,7 @@
                           </div>
                         </li>
   
-                        <li class="nav-item Admin-li" routerLink="/Admin">
+                        <li class="nav-item Admin-li" routerLink="/Admin" style="margin-left: 10% !important ;margin-right: 10% !important;">
                           <div class="dropdown">
                               <a class="nav-link dropdown-toggle" style="color: white;" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <span style="color: #d9dbda;">
@@ -116,7 +71,7 @@
                           </div>
                       </li>
   
-                        <li class="nav-item">
+                        <li class="nav-item" style="margin-left: 10% !important ;margin-right: 10% !important;">
                             <a class="nav-link" style="color: white;padding-top: 13px;" staria-current="page" routerLink="/Order"
                                 routerLinkActive="router-link-active">
                                 <span>{{'header.Order' | translate}}</span>
