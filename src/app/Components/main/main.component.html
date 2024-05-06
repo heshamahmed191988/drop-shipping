@@ -186,26 +186,7 @@
         </div>
     </div>
 </section>
-<div class="div mb-5" style="overflow-x: auto; overflow-y: hidden; background-color: white;">
-    <div class="today_deals_product_container" style="width: 90%; margin-top:30px;width:100%;">
-        <ngx-slick-carousel class="carousel" #slickModal3="slick-carousel" [config]="slideConfig3" style="z-index: 10;width: 92%;margin-left:4%">
-            <a ngxSlickItem [routerLink]="['/Details/', product.id,selectedCategoryId]" *ngFor="let product of randomProducts2" class="slide">
-                <img *ngIf="product.productImages && product.productImages.length > 0" [src]="'data:image/jpg;base64,' + product.productImages[0]" style="max-width: 100%; height:200px; object-fit: contain;">
-            </a>
-        </ngx-slick-carousel>
-        
-        <div class="today_deals_btn_container" >
-            <!-- ngx-slick-carousel previous button -->
-            <button class="btn btn-outline-secondary" id="today_deal_btn_prev1" (click)="slickModal3.slickPrev()" style="z-index: 10;">
-                <i class="fas fa-angle-left"></i>
-            </button>
-            <!-- ngx-slick-carousel next button -->
-            <button class="btn btn-outline-secondary" id="today_deal_btn_next1" (click)="slickModal3.slickNext()" style="z-index: 10;">
-                <i class="fas fa-angle-right"></i>
-            </button>
-        </div>
- </div>
-</div>
+
 
 
 

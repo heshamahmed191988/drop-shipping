@@ -292,7 +292,7 @@ NavigateToDetails(proId: number) {
       selectedCategoryId: this.selectedCategoryId,
   };
   debugger
-  console.log("Navigating to details for product ID:", proId);
+ // console.log("Navigating to details for product ID:", proId);
   console.log("Selected category ID:", this.selectedCategoryId);
   localStorage.setItem('searchState', JSON.stringify(state));
   this.router.navigateByUrl(`/Details/${proId}/${this.selectedCategoryId}`);

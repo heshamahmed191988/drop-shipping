@@ -20,6 +20,7 @@ import { AddressSharedService } from '../../services/address-shared.service';
 import { ReviewService } from '../../services/review.service';
 import { NgxSpinnerModule, NgxSpinnerService } from 'ngx-spinner';
 import { AnimationService } from '../../services/animation.service';
+import { OrderService } from '../../services/order.service';
 @Component({
   selector: 'app-product-details',
   standalone: true,
@@ -32,19 +33,30 @@ export class ProductDetailsComponent implements OnInit {
   public UserId: string = "";
   // "82b5b776-9a7a-4556-99e6-983e9509064d;
   adressId:number = 0;
+  isOrderProcessing: boolean = false;
+orderErrorMessage: string = '';
   ProductQuantity: number= 1;
   mainImageUrl!: string ; 
   randomProducts: Iproduct[] = [];
   Products: Iproduct[] = [];
-  public order: IcreatrOrder = { userID: "", orderQuantities: [],addressId:0};
-  public total: number = 0
+  public order: IcreatrOrder = {
+    userID: '',
+    orderQuantities: [],
+    addressId: 0,
+    deliveryPrice:5000
+
+  };
+  isCreatingOrder: boolean = false;
+  
+    public total: number = 0
   lang: string = 'en';
   //  selectedCategoryId = Math.floor(Math.random() * 10) + 1;
   selectedCategoryId: number =0;
-  public isAddressSubmitted: boolean = false;
+  public isAddressSubmitted: boolean = true;
   public pageNumber: number = 1;
   public pageSize: number =3;
   reviewlength: number =0;
+  
   public currentProduct: Iproduct = {
     id: 0,
     itemscolor: [],
@@ -77,7 +89,8 @@ export class ProductDetailsComponent implements OnInit {
      ,private router:Router,private addressshared:AddressSharedService,
      private reviewService: ReviewService,
      private spinner:NgxSpinnerService,
-     private animationService: AnimationService) {
+     private animationService: AnimationService,
+    private orderservice: OrderService) {
     this.setUserid();
     
         this._PaypalService.updateOrderData.subscribe({
@@ -132,7 +145,7 @@ export class ProductDetailsComponent implements OnInit {
     });
 
     //paypal
-    this._PaypalService.initConfig();
+    //this._PaypalService.initConfig();
     this.addressshared.addressSubmitted$.subscribe(submitted => {
       this.isAddressSubmitted = submitted;
     });
@@ -165,13 +178,71 @@ export class ProductDetailsComponent implements OnInit {
     this.fetchReviews();
 
     // this.setUserid()
-    this.payPalConfig = this._PaypalService.payPalConfig;
+   // this.payPalConfig = this._PaypalService.payPalConfig;
   }
   // addToOrder(currentProduct:Iproduct){
   //   this._Cart.addtoOrder(currentProduct);
   // }  
+
+
+  createOrder(): void {
+    // Assuming you have already populated the order details, add the logic to send the order to the server
+    // You can use the OrderService to send the order data
+    this.isOrderProcessing = true;
+    this.isCreatingOrder = true;
+    // Update order data
+    this.order.userID = this.UserId;
+    this.order.addressId = this.adressId; // Assuming addressId is set elsewhere
+
+
+
+    // Prepare order data
+    const orderData = {
+        userID: this.order.userID,
+        orderQuantities: this.order.orderQuantities.map(item => ({
+          quantity: this.Quantity,
+          productID: this.currentId,
+          unitAmount: Number(this.currentProduct.price)
+        })),
+        addressId: this.order.addressId,
+        deliveryPrice: this.order.deliveryPrice // Assuming deliveryPrice is set elsewhere
+    };
+
+    // Send order data to the server
+    this.orderservice.CreateOrder(orderData).subscribe(
+        (response) => {
+            // Handle success response
+           // console.log('Order created successfully:', response);
+            // Optionally, reset the order or perform any other actions
+            this.isOrderProcessing = false;
+
+            this.resetOrder();
+        },
+        (error) => {
+            // Handle error response
+            //console.error('Error creating order:', error);
+            // Optionally, reset the order or perform any other error handling
+            this.resetOrder();
+            this.orderErrorMessage = 'There was a problem creating the order. Please try again.';
+
+        }).add(() => {
+          this.isOrderProcessing = false;
+          this.router.navigateByUrl('/Order');
+
+      });
+    
+}
+  resetOrder(): void {
+    this.order = {
+      userID: '',
+      orderQuantities: [],
+      addressId: 0,
+    };
+    this.orderErrorMessage = '';
+    this.isOrderProcessing = false;
+    this.isCreatingOrder = false;
+  }
   updateMainImage(image: string) {
-    // Update the main image source with the clicked image
     this.mainImageUrl = image;
 }
   addToCart(product: Iproduct, quantity: number) {
@@ -196,6 +267,8 @@ export class ProductDetailsComponent implements OnInit {
       }
     });
   }
+
+  
   getTotalPrice() {
     return this._Cart.getTotalPrice();
   }

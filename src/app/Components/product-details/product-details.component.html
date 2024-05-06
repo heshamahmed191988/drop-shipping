@@ -170,9 +170,32 @@
           </div>
         </li>
         <li class="list-group-item text-center" >  <button [disabled]="!currentProduct || (currentProduct.stockQuantity !== undefined && Quantity > currentProduct.stockQuantity)"  class="btn-buy-now w-100" style="background-color: #f7ca00;border-radius: 12px;" (click)="addToCart(currentProduct,Quantity)" routerLink="/Cart" routerLinkActive="router-link-active"  >{{'detail.Add to Cart'|translate}}</button>
-          <li class="list-group-item text-center" > <button class=" btn-add-to-cart w-100" style="background-color: #fa8900;border-radius: 12px;" *ngIf="!isAddressSubmitted" (click)="gottoAddress()">{{'detail.Buy Now'|translate}}</button>
-          <li class="list-group-item text-center">  <ngx-paypal *ngIf="isAddressSubmitted" [config]="payPalConfig"></ngx-paypal>
-          </li>
+          <li class="list-group-item text-center">
+            <button class="btn-add-to-cart w-100" 
+                    style="background-color: #fa8900; border-radius: 12px;"
+                    *ngIf="!isAddressSubmitted && !isCreatingOrder"
+                    (click)="gottoAddress()">
+                {{ 'detail.Buy Now' | translate }}
+            </button>
+        </li>
+        <li class="list-group-item text-center">
+            <button class="btn-add-to-cart w-100" 
+                    style="background-color: #fa8900; border-radius: 12px;"
+                    *ngIf="isAddressSubmitted && !isCreatingOrder"
+                    (click)="createOrder()">
+                Create Order
+            </button>
+            <button class="btn-add-to-cart w-100" 
+                    style="background-color: #fa8900; border-radius: 12px;"
+                    *ngIf="isCreatingOrder">
+                Creating Order...
+            </button>
+        </li>
+            
+         
+         
+            <!-- <li class="list-group-item text-center">  <ngx-paypal *ngIf="isAddressSubmitted" [config]="payPalConfig"></ngx-paypal>
+          </li> -->
           <!-- <ngx-paypal [config]="payPalConfig"></ngx-paypal> -->
           <!-- <li class="list-group-item">Vestibulum at eros</li> -->
         </ul>
