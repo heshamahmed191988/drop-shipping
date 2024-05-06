@@ -25,6 +25,7 @@ import { AddressSharedService } from "../../services/address-shared.service";
 import { TranslateModule } from "@ngx-translate/core";
 import { ProductServiceService } from "../../services/product-service.service";
 import { ProductStateService } from "../../services/product-state.service";
+import { OrderService } from "../../services/order.service";
 
 @Component({
   selector: "app-cart",
@@ -53,6 +54,20 @@ export class CartComponent implements OnInit {
   lang: string = "en";
   public pageNumber: number = 1;
   public pageSize: number = 3;
+
+  isOrderProcessing: boolean = false;
+  orderErrorMessage: string = '';
+  isCreatingOrder: boolean = false;
+
+
+
+
+
+
+
+
+
+
   public currentProduct: Iproduct = {
     id: 0,
     itemscolor: [],
@@ -78,8 +93,53 @@ export class CartComponent implements OnInit {
     userID: "",
     orderQuantities: [],
     addressId: 0,
-  };
+    deliveryPrice:5000
 
+  };
+  createOrder(): void {
+    // Assuming you have already populated the order details (userId, orderQuantities, addressId)
+    this.isOrderProcessing = true;
+    this.isCreatingOrder = true;
+
+    const orderData: IcreatrOrder = {
+      userID: this.UserId,
+      orderQuantities: this.product.map((item) => ({
+        quantity: item.quantity !== undefined ? item.quantity : 0,
+        productID: item.id,
+        unitAmount: Number(item.price),
+      })),
+      addressId: this.adressId,
+    };
+
+    this.orderservice.CreateOrder(orderData).subscribe(
+      (response) => {
+        // Handle success response
+        console.log("Order created successfully:", response);
+        this.resetOrder(); // Optionally, reset order or perform other actions
+        // Handle success UI updates or navigation if applicable
+      },
+      (error) => {
+        // Handle error response
+        console.error("Error creating order:", error);
+        this.resetOrder(); // Reset order or perform other error handling
+        this.orderErrorMessage = "There was a problem creating the order. Please try again.";
+      }
+    ).add(() => {
+      this.isOrderProcessing = false;
+      this.router.navigateByUrl("/Order"); // Route to order confirmation or relevant page
+    });
+    
+  }
+  resetOrder(): void {
+    this.order = {
+      userID: '',
+      orderQuantities: [],
+      addressId: 0,
+    };
+    this.orderErrorMessage = '';
+    this.isOrderProcessing = false;
+    this.isCreatingOrder = false;
+  }
   constructor(
     private _Cart: ICartService,
     private _PaypalService: PaypalService,
@@ -88,7 +148,8 @@ export class CartComponent implements OnInit {
     private addressshared: AddressSharedService,
     private _ProductServiceService: ProductServiceService,
     private productStateService: ProductStateService,
-    private activatedrouter: ActivatedRoute
+    private activatedrouter: ActivatedRoute,
+    private orderservice:OrderService
   ) {
     this.setUserid();
     console.log(this.UserId);
@@ -117,6 +178,9 @@ export class CartComponent implements OnInit {
       },
     });
   }
+
+
+  
 
   //To calc NUmber on vart items we shoud do it in navbar
   ngOnInit(): void {
@@ -269,4 +333,7 @@ export class CartComponent implements OnInit {
   canIncreaseQuantity(item:any): boolean {
     return item.quantity < item.stockQuantity;
 }
+
+
+
 }

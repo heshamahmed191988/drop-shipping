@@ -15,6 +15,7 @@ import { CommonModule } from '@angular/common';
 export class OrderDetailsComponent {
   orderid:number=1;
   orderdetails:Iorderdetails[]= []
+  
   constructor(private route: ActivatedRoute,private _OrderServices:OrderService)
   {
 
@@ -32,4 +33,8 @@ export class OrderDetailsComponent {
       console.log(this.orderdetails)
   })
   }
+
+
+
+  
 }

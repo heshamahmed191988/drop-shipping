@@ -31,7 +31,8 @@ export class OrderService {
     return this.httpclient.post<IorderId>(`${environment.baseUrl}/api/Order`, {
       userID: create.userID,
       orderQuantities: create.orderQuantities,
-       addressId: create.addressId
+       addressId: create.addressId,
+       deliveryPrice: create.deliveryPrice
     });
     }
 
