@@ -75,7 +75,7 @@ isloggedstate !:BehaviorSubject<boolean>
     localStorage.removeItem('jwtToken');
     localStorage.removeItem('tokenExpiration');
     this.isloggedstate.next(false);
-   this.cart.removeAllOrder();
+    this.cart.removeAllOrder();
   }
 
   // Method to automatically attach JWT to HttpHeaders (for making authenticated requests)

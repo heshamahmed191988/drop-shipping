@@ -31,7 +31,9 @@ export class ICartService {
   }
 
   getTotalPrice(): number {
+    
     return this.cartItems.reduce((total, item) => total + (item.price * (item.quantity || 1)), 0);
+    
   }
 
   removeOrderItem(productId: number) {

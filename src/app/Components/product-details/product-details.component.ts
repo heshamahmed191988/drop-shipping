@@ -26,9 +26,11 @@ import { OrderService } from '../../services/order.service';
   standalone: true,
   templateUrl: './product-details.component.html',
   styleUrls: ['./product-details.component.css'],
-  imports: [CommonModule, ReviewComponent,SafeBase64Pipe,TranslateModule,NgxPayPalModule,FormsModule,RouterLink,NgxSpinnerModule]
+  imports: [CommonModule,FormsModule, ReviewComponent,SafeBase64Pipe,TranslateModule,NgxPayPalModule,FormsModule,RouterLink,NgxSpinnerModule]
 })
 export class ProductDetailsComponent implements OnInit {
+  selectedSliderPrice: number = 0;
+
   public Quantity: number = 1;
   public UserId: string = "";
   // "82b5b776-9a7a-4556-99e6-983e9509064d;
@@ -73,7 +75,9 @@ orderErrorMessage: string = '';
     price: 0,
     rating:0,
     categoryNameEn:'',
-    categoryNameAr:''
+    categoryNameAr:'',
+    maxPrice:0,
+    minPrice:0
   };
 
   payPalConfig: IPayPalConfig | undefined;
@@ -183,7 +187,9 @@ orderErrorMessage: string = '';
   // addToOrder(currentProduct:Iproduct){
   //   this._Cart.addtoOrder(currentProduct);
   // }  
-
+  onPriceChange(event: any) {
+    this.selectedSliderPrice = event.target.value;
+  }
 
   createOrder(): void {
     // Assuming you have already populated the order details, add the logic to send the order to the server
@@ -202,7 +208,7 @@ orderErrorMessage: string = '';
         orderQuantities: this.order.orderQuantities.map(item => ({
           quantity: this.Quantity,
           productID: this.currentId,
-          unitAmount: Number(this.currentProduct.price)
+          unitAmount: Number(this.selectedSliderPrice)
         })),
         addressId: this.order.addressId,
         deliveryPrice: this.order.deliveryPrice // Assuming deliveryPrice is set elsewhere

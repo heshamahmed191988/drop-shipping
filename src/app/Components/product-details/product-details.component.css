@@ -466,3 +466,38 @@ font-size: 20px;
 margin-left: 0%;
 color: #212121;
 }
+
+.price-slider {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  background-color: #f9f9f9;
+}
+
+.price-label {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  margin-bottom: 10px;
+}
+
+.slider {
+  width: 100%;
+}
+
+.selected-price {
+  display: flex;
+  align-items: center;
+  margin-top: 10px;
+}
+
+.selected-price span {
+  margin-right: 10px;
+}
+
+.selected-price input {
+  width: 80px;
+}

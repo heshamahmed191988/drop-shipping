@@ -108,6 +108,23 @@
       <h5 class="mt-2">
         <span>{{'detail.price'|translate}} : <span style="color: #B12704; font-size:large;">EGP {{currentProduct.price}}</span></span>
         <br> <span>{{'detail.Category'|translate}} :<span style="font-size: 16px;color: black;"> {{getCategoryName(currentProduct)}} </span></span></h5>
+        <div id="priceSlider" class="price-slider">
+          <div class="price-label">
+            <span>Min Price:</span>
+            <span>{{ currentProduct.minPrice }}</span>
+          </div>
+          <input type="range" [min]="currentProduct.minPrice" [max]="currentProduct.maxPrice" [(ngModel)]="selectedSliderPrice" (input)="onPriceChange($event)" class="slider" id="priceRange">
+          <div class="price-label">
+            <span>Max Price:</span>
+            <span>{{ currentProduct.maxPrice }}</span>
+          </div>
+          <div class="selected-price">
+            <span>Selected Price:</span>
+            <input type="number" [(ngModel)]="selectedSliderPrice">
+          </div>
+        </div>
+        
+        
       <span>{{'detail.All prices include VAT'|translate}}.</span>
       <div class="payment">
           <div class="paymentchild">

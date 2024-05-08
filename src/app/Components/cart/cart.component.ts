@@ -42,6 +42,8 @@ import { OrderService } from "../../services/order.service";
   styleUrl: "./cart.component.css",
 })
 export class CartComponent implements OnInit {
+  selectedSliderPrice: number = 0;
+
   // public totalITeam:number=0
   public grandToltal!: number;
   public isAddressSubmitted: boolean = false;
@@ -58,14 +60,6 @@ export class CartComponent implements OnInit {
   isOrderProcessing: boolean = false;
   orderErrorMessage: string = '';
   isCreatingOrder: boolean = false;
-
-
-
-
-
-
-
-
 
 
   public currentProduct: Iproduct = {
@@ -106,7 +100,7 @@ export class CartComponent implements OnInit {
       orderQuantities: this.product.map((item) => ({
         quantity: item.quantity !== undefined ? item.quantity : 0,
         productID: item.id,
-        unitAmount: Number(item.price),
+        unitAmount: Number(this.selectedSliderPrice),
       })),
       addressId: this.adressId,
     };
@@ -155,28 +149,10 @@ export class CartComponent implements OnInit {
     console.log(this.UserId);
 
     this._Cart.getProduct().subscribe((res) => {
-      debugger;
       this.product = res;
       this.grandToltal = this._Cart.getTotalPrice();
     });
-    console.log(this.product);
-    this._PaypalService.updateOrderData.subscribe({
-      next: (res) => {
-        this.order.userID = this.UserId;
-        this.order.orderQuantities = [];
-        this.order.addressId = this.adressId;
-        for (const item of this.product) {
-          debugger;
-          const Quantity = item.quantity !== undefined ? item.quantity : 0;
-          this.order.orderQuantities.push({
-            quantity: Quantity,
-            productID: item.id,
-            unitAmount: Number(item.price),
-          }); 
-        }
-        this._PaypalService.create = this.order; 
-      },
-    });
+
   }
 
 
@@ -187,9 +163,9 @@ export class CartComponent implements OnInit {
     this.addressshared.addressSubmitted$.subscribe((submitted) => {
       this.isAddressSubmitted = submitted;
     });
-    this._PaypalService.initConfig();
 
     this._Cart.getProduct().subscribe((res) => {
+      console.log('Cart Items:', res);
       this.product = res;
       this.grandToltal = this._Cart.getTotalPrice();
       this.calculateGrandTotal();
@@ -198,14 +174,10 @@ export class CartComponent implements OnInit {
       }
       // Update the isCartEmpty based on the products list
       this.isCartEmpty = res.length === 0;
+      
     });
 
-    // this._Cart.getProduct()
-    // .subscribe(res=>{
-    //   debugger
-    //   this.product=res
-    //   this.grandToltal=this._Cart.getTotalPrice()
-    //   })
+
 
     this.activatedrouter.paramMap.subscribe((paramMap) => {
       this._ProductServiceService.getProductById(this.currentId).subscribe({
@@ -218,19 +190,11 @@ export class CartComponent implements OnInit {
       });
     });
     this.AllProducts();
-    //  this._Cart.getProduct()
-    //  .subscribe(res=>{
-    //   this.totalITeam=res.length;
-    //  })
-    // this._Cart.getProduct()
-    // .subscribe(res=>{
-    //   this.product=res
-    //   this.grandToltal=this._Cart.getTotalPrice()
 
-    // })
-    this.payPalConfig = this._PaypalService.payPalConfig;
   }
-
+  onPriceChange(event: any) {
+    this.selectedSliderPrice = event.target.value;
+  }
   calculateGrandTotal(): void {
     this.grandToltal = 0;
     this.product.forEach((product) => {

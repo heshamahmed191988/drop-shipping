@@ -103,7 +103,21 @@
                               <button class=" btn-sm btn-secondary" (click)="increaseQuantity(item)" [disabled]="!canIncreaseQuantity(item)">
                                 <i class="fa fa-plus"></i>
                               </button>
-                              
+                              <div id="priceSlider" class="price-slider">
+                                <div class="price-label">
+                                  <span>Min Price:</span>
+                                  <span>{{ currentProduct.minPrice }}</span>
+                                </div>
+                                <input type="range" [min]="currentProduct.minPrice" [max]="currentProduct.maxPrice" [(ngModel)]="selectedSliderPrice" (input)="onPriceChange($event)" class="slider" id="priceRange">
+                                <div class="price-label">
+                                  <span>Max Price:</span>
+                                  <span>{{ currentProduct.maxPrice }}</span>
+                                </div>
+                                <div class="selected-price">
+                                  <span>Selected Price:</span>
+                                  <input type="number" [(ngModel)]="selectedSliderPrice">
+                                </div>
+                              </div>
                             </div>
                          
                           
@@ -147,7 +161,7 @@
               <h2 class="font-bold">{{ grandToltal}}</h2>
             </div>
             <div class="paypal">
-              <ngx-paypal *ngIf="isAddressSubmitted" [config]="payPalConfig"></ngx-paypal>
+              <!-- <ngx-paypal *ngIf="isAddressSubmitted" [config]="payPalConfig"></ngx-paypal> -->
               <button type="button" class="btn btn-warning" (click)="emptyOrder()"> {{'cart.Delete All Cart'|translate}}</button>
               <li class="list-group-item text-center">
                 <button class="btn-add-to-cart w-100" 

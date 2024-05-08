@@ -21,6 +21,8 @@ export interface Iproduct {
     categoryNameEn?:string;
     categoryNameAr?:string;
     isExpanded?: boolean;
+    maxPrice?:number;
+    minPrice?:number;
 
     //BrandName?:string;
 }
