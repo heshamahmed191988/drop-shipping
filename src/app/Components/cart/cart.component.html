@@ -79,7 +79,7 @@
               <div class="table-responsive">
                 <table class="table shoping-cart-table">
                   <tbody>
-                    <tr *ngFor="let item of product">
+                    <tr *ngFor="let item of product let i = index">
                       <td width="90">
                         <img [src]="'data:image/jpg;base64,' + item.productimages?.[0]" alt="Product Image" style="margin-top: 23px;max-width: 127px;">
                       </td>
@@ -103,23 +103,25 @@
                               <button class=" btn-sm btn-secondary" (click)="increaseQuantity(item)" [disabled]="!canIncreaseQuantity(item)">
                                 <i class="fa fa-plus"></i>
                               </button>
-                              <div id="priceSlider" class="price-slider">
-                                <div class="price-label">
-                                  <span>Min Price:</span>
-                                  <span>{{ currentProduct.minPrice }}</span>
-                                </div>
-                                <input type="range" [min]="currentProduct.minPrice" [max]="currentProduct.maxPrice" [(ngModel)]="selectedSliderPrice" (input)="onPriceChange($event)" class="slider" id="priceRange">
-                                <div class="price-label">
-                                  <span>Max Price:</span>
-                                  <span>{{ currentProduct.maxPrice }}</span>
-                                </div>
-                                <div class="selected-price">
-                                  <span>Selected Price:</span>
-                                  <input type="number" [(ngModel)]="selectedSliderPrice">
+                                <!-- Other product information -->
+                                <div id="priceSlider" class="price-slider">
+                                  <div class="price-label">
+                                    <span>Min Price:</span>
+                                    <span>{{ item.minPrice }}</span>
+                                  </div>
+                                  <input type="range" [min]="item.minPrice" [max]="item.maxPrice" [(ngModel)]="selectedPrices[i]" (input)="onPriceChange($event, i)" class="slider" id="priceRange">
+                                  <div class="price-label">
+                                    <span>Max Price:</span>
+                                    <span>{{ item.maxPrice }}</span>
+                                  </div>
+                                  <div class="selected-price">
+                                    <span>Selected Price:</span>
+                                    <input type="number" [(ngModel)]="selectedPrices[i]">
+                                  </div>
                                 </div>
                               </div>
-                            </div>
-                         
+                              
+
                           
                         </dl>
 

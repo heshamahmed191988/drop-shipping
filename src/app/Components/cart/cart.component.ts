@@ -42,7 +42,7 @@ import { OrderService } from "../../services/order.service";
   styleUrl: "./cart.component.css",
 })
 export class CartComponent implements OnInit {
-  selectedSliderPrice: number = 0;
+  selectedPrices: number[] = [];
 
   // public totalITeam:number=0
   public grandToltal!: number;
@@ -77,6 +77,10 @@ export class CartComponent implements OnInit {
     productDescription: "",
     price: 0,
     rating: 0,
+    maxPrice:0,
+    minPrice:0,
+    selectedSliderPrice:0,
+
   };
   Products: Iproduct[] = [];
   currentId: number = 0;
@@ -97,10 +101,10 @@ export class CartComponent implements OnInit {
 
     const orderData: IcreatrOrder = {
       userID: this.UserId,
-      orderQuantities: this.product.map((item) => ({
+      orderQuantities: this.product.map((item,index) => ({
         quantity: item.quantity !== undefined ? item.quantity : 0,
         productID: item.id,
-        unitAmount: Number(this.selectedSliderPrice),
+        unitAmount: Number(this.selectedPrices[index]),
       })),
       addressId: this.adressId,
     };
@@ -167,6 +171,8 @@ export class CartComponent implements OnInit {
     this._Cart.getProduct().subscribe((res) => {
       console.log('Cart Items:', res);
       this.product = res;
+      this.selectedPrices = res.map((product) => product.selectedSliderPrice || product.minPrice || 0);
+
       this.grandToltal = this._Cart.getTotalPrice();
       this.calculateGrandTotal();
       for (let product of res) {
@@ -192,8 +198,8 @@ export class CartComponent implements OnInit {
     this.AllProducts();
 
   }
-  onPriceChange(event: any) {
-    this.selectedSliderPrice = event.target.value;
+ onPriceChange(event: any, index: number) {
+    this.selectedPrices[index] = event.target.value;
   }
   calculateGrandTotal(): void {
     this.grandToltal = 0;

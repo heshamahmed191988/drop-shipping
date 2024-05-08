@@ -23,6 +23,8 @@ export interface Iproduct {
     isExpanded?: boolean;
     maxPrice?:number;
     minPrice?:number;
+    selectedSliderPrice?: number ;
+
 
     //BrandName?:string;
 }
