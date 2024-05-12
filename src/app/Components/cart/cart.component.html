@@ -104,25 +104,37 @@
                                 <i class="fa fa-plus"></i>
                               </button>
                                 <!-- Other product information -->
-                                <div id="priceSlider" class="price-slider">
-                                  <div class="price-label">
-                                    <span>Min Price:</span>
-                                    <span>{{ item.minPrice }}</span>
-                                  </div>
-                                  <input type="range" [min]="item.minPrice" [max]="item.maxPrice" [(ngModel)]="selectedPrices[i]" (input)="onPriceChange($event, i)" class="slider" id="priceRange">
-                                  <div class="price-label">
-                                    <span>Max Price:</span>
-                                    <span>{{ item.maxPrice }}</span>
-                                  </div>
-                                  <div class="selected-price">
-                                    <span>Selected Price:</span>
-                                    <input type="number" [(ngModel)]="selectedPrices[i]">
+                                <div class="price-slider-container">
+                                  <div class="price-slider">
+                                    <div class="price-label">
+                                      <span>Min Price:</span>
+                                      <span>{{ item.minPrice }}</span>
+                                    </div>
+                                    <input type="range" [min]="item.minPrice" [max]="item.maxPrice" [(ngModel)]="selectedPrices[i]" (input)="onPriceChange($event, i); calculateEarning(i)" class="slider" id="priceRange">
+                                    <div class="price-label">
+                                      <span>Max Price:</span>
+                                      <span>{{ item.maxPrice }}</span>
+                                    </div>
+                                    <div class="selected-price">
+                                      <span>Selected Price:</span>
+                                      <input type="number" 
+                                             [attr.min]="item.minPrice !== undefined ? item.minPrice : null" 
+                                             [attr.max]="item.maxPrice !== undefined ? item.maxPrice : null" 
+                                             [(ngModel)]="selectedPrices[i]" 
+                                             (input)="onPriceChange($event, i)"
+                                             (change)="checkInputRange(item, i)"
+                                             class="slider" 
+                                             id="priceRangeInput">
+                                    </div>
+                                    <div class="earning">
+                                      <span>Earning:</span>
+                                      <span>{{ calculateEarning(i) }}</span>
+                                    </div>
                                   </div>
                                 </div>
-                              </div>
-                              
 
-                          
+                              </div>
+
                         </dl>
 
                         <div class="m-t-sm">

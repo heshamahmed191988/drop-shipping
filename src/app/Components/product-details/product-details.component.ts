@@ -30,7 +30,7 @@ import { OrderService } from '../../services/order.service';
 })
 export class ProductDetailsComponent implements OnInit {
   selectedSliderPrice: number = 0;
-
+  earning: number = 0;
   public Quantity: number = 1;
   public UserId: string = "";
   // "82b5b776-9a7a-4556-99e6-983e9509064d;
@@ -45,7 +45,8 @@ orderErrorMessage: string = '';
     userID: '',
     orderQuantities: [],
     addressId: 0,
-    deliveryPrice:5000
+    deliveryPrice:5000,
+    earning:20,
 
   };
   isCreatingOrder: boolean = false;
@@ -118,7 +119,7 @@ orderErrorMessage: string = '';
   ngOnInit(): void {
     window.scrollTo(0, 0);
     this.animationService.openspinner();
-    this.fetchReviews();
+    //this.fetchReviews();
 
     this.activatedrouter.paramMap.subscribe((paramMap) => {
       this.currentId = Number(paramMap.get('id'));
@@ -133,7 +134,7 @@ orderErrorMessage: string = '';
                   // Optionally, set a placeholder image if no images are available
                   this.mainImageUrl = 'path/to/your/placeholder/image.jpg';
               }
-              this.fetchReviews();
+              //this.fetchReviews();
               this.productStateService.changeProductId(this.currentId); // Update product ID state
           },
           error: (err) => console.log(err)
@@ -171,7 +172,7 @@ orderErrorMessage: string = '';
       this._ProductServiceService.getProductById(this.currentId).subscribe({
         next: (res) => {
           this.currentProduct = res;
-          this.fetchReviews();
+          //this.fetchReviews();
           this.RandomProducts();
           this.productStateService.changeProductId(this.currentId);
           this.ProductQuantity = this.currentProduct.stockQuantity as number; // Update product ID state
@@ -179,7 +180,7 @@ orderErrorMessage: string = '';
         error: (err) => console.log(err)
       });
     });
-    this.fetchReviews();
+    //this.fetchReviews();
 
     // this.setUserid()
    // this.payPalConfig = this._PaypalService.payPalConfig;
@@ -187,9 +188,6 @@ orderErrorMessage: string = '';
   // addToOrder(currentProduct:Iproduct){
   //   this._Cart.addtoOrder(currentProduct);
   // }  
-  onPriceChange(event: any) {
-    this.selectedSliderPrice = event.target.value;
-  }
 
   createOrder(): void {
     // Assuming you have already populated the order details, add the logic to send the order to the server
@@ -198,8 +196,8 @@ orderErrorMessage: string = '';
     this.isCreatingOrder = true;
     // Update order data
     this.order.userID = this.UserId;
-    this.order.addressId = this.adressId; // Assuming addressId is set elsewhere
-
+    this.order.addressId = this.adressId;
+    this.order.earning = this.earning;
 
 
     // Prepare order data
@@ -211,7 +209,8 @@ orderErrorMessage: string = '';
           unitAmount: Number(this.selectedSliderPrice)
         })),
         addressId: this.order.addressId,
-        deliveryPrice: this.order.deliveryPrice // Assuming deliveryPrice is set elsewhere
+        deliveryPrice: this.order.deliveryPrice,
+        earning:this.order.earning,
     };
 
     // Send order data to the server
@@ -238,11 +237,38 @@ orderErrorMessage: string = '';
       });
     
 }
+  onPriceChange(event: any) {
+    this.selectedSliderPrice = event.target.value;
+    this.earning = Number(this.selectedSliderPrice) - Number(this.currentProduct.price);
+
+  }
+  onInputPriceChange(): void {
+    // Ensure selected price is within the valid range
+    if (this.currentProduct && this.currentProduct.minPrice !== undefined && this.currentProduct.maxPrice !== undefined) {
+        if (this.selectedSliderPrice < this.currentProduct.minPrice) {
+            this.selectedSliderPrice = this.currentProduct.minPrice; // Set to minPrice if value is less than min
+        } else if (this.selectedSliderPrice > this.currentProduct.maxPrice) {
+            this.selectedSliderPrice = this.currentProduct.maxPrice; // Set to maxPrice if value is greater than max
+        }
+    }
+
+    // Calculate earning based on the input field value and currentProduct price
+    this.calculateEarning();
+}
+
+  calculateEarning(): void {
+    // Calculate earning based on the selectedSliderPrice, currentProduct price, and quantity
+    if (this.currentProduct) {
+        this.earning = (Number(this.selectedSliderPrice) - Number(this.currentProduct.price)) * this.Quantity;
+    }
+}
   resetOrder(): void {
     this.order = {
       userID: '',
       orderQuantities: [],
       addressId: 0,
+      deliveryPrice: 5000,
+      earning: 0
     };
     this.orderErrorMessage = '';
     this.isOrderProcessing = false;
@@ -254,25 +280,25 @@ orderErrorMessage: string = '';
   addToCart(product: Iproduct, quantity: number) {
     this._Cart.addtoOrder(product, quantity);
   }
-  fetchReviews() {
-    this.reviewService.getReviewsByProductId(this.currentProduct.id!).subscribe({
-      next: (reviews) => {
-        if (reviews && reviews.length > 0) {
-          let totalRating = 0;
-          for (let review of reviews) {
-            totalRating += review.rating || 0;
-          }
-          this.currentProduct.rating = totalRating / reviews.length;
-          this.reviewlength=reviews.length;//new
-        } else {
-          this.currentProduct.rating = 0;
-        }
-      },
-      error: (err) => {
-        console.error('Error fetching reviews:', err);
-      }
-    });
-  }
+  // fetchReviews() {
+  //   this.reviewService.getReviewsByProductId(this.currentProduct.id!).subscribe({
+  //     next: (reviews) => {
+  //       if (reviews && reviews.length > 0) {
+  //         let totalRating = 0;
+  //         for (let review of reviews) {
+  //           totalRating += review.rating || 0;
+  //         }
+  //         this.currentProduct.rating = totalRating / reviews.length;
+  //         this.reviewlength=reviews.length;//new
+  //       } else {
+  //         this.currentProduct.rating = 0;
+  //       }
+  //     },
+  //     error: (err) => {
+  //       console.error('Error fetching reviews:', err);
+  //     }
+  //   });
+  // }
 
   
   getTotalPrice() {
@@ -384,6 +410,7 @@ orderErrorMessage: string = '';
 updateQuantity() {
   if (this.Quantity > this.ProductQuantity) {
     this.Quantity = this.ProductQuantity;
+    this.calculateEarning();
 }
 }
 getCategoryName(product: Iproduct): string {

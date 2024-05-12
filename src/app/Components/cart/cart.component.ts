@@ -91,7 +91,8 @@ export class CartComponent implements OnInit {
     userID: "",
     orderQuantities: [],
     addressId: 0,
-    deliveryPrice:5000
+    deliveryPrice:5000,
+    earning:0
 
   };
   createOrder(): void {
@@ -107,6 +108,8 @@ export class CartComponent implements OnInit {
         unitAmount: Number(this.selectedPrices[index]),
       })),
       addressId: this.adressId,
+      deliveryPrice:this.order.deliveryPrice,
+      earning: this.calculateTotalEarning()
     };
 
     this.orderservice.CreateOrder(orderData).subscribe(
@@ -128,6 +131,25 @@ export class CartComponent implements OnInit {
     });
     
   }
+
+  calculateTotalEarning(): number {
+    let totalEarning = 0;
+    this.product.forEach((item, index) => {
+        const actualPrice = item.price;
+        const selectedPrice = this.selectedPrices[index];
+        const quantity = item.quantity || 0;
+        const earningForItem = (selectedPrice - actualPrice) * quantity;
+        totalEarning += earningForItem;
+    });
+    return totalEarning;
+}
+calculateEarning(index: number): number {
+  const actualPrice = this.product[index].price;
+  const selectedPrice = this.selectedPrices[index];
+  const quantity = this.product[index].quantity || 0;
+  return (selectedPrice - actualPrice) * quantity;
+}
+
   resetOrder(): void {
     this.order = {
       userID: '',
@@ -198,6 +220,14 @@ export class CartComponent implements OnInit {
     this.AllProducts();
 
   }
+  checkInputRange(item: Iproduct, index: number): void {
+    if (item.minPrice !== undefined && this.selectedPrices[index] < item.minPrice) {
+      this.selectedPrices[index] = item.minPrice;
+    } else if (item.maxPrice !== undefined && this.selectedPrices[index] > item.maxPrice) {
+      this.selectedPrices[index] = item.maxPrice;
+    }
+  }
+  
  onPriceChange(event: any, index: number) {
     this.selectedPrices[index] = event.target.value;
   }

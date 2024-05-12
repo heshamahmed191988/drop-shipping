@@ -32,7 +32,8 @@ export class OrderService {
       userID: create.userID,
       orderQuantities: create.orderQuantities,
        addressId: create.addressId,
-       deliveryPrice: create.deliveryPrice
+       deliveryPrice: create.deliveryPrice,
+       earning: create.earning
     });
     }
 

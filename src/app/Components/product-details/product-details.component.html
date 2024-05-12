@@ -120,9 +120,14 @@
           </div>
           <div class="selected-price">
             <span>Selected Price:</span>
-            <input type="number" [(ngModel)]="selectedSliderPrice">
+            <input type="number" [(ngModel)]="selectedSliderPrice" (input)="onInputPriceChange()" class="form-control" id="selectedPriceInput" placeholder="Selected Price" [attr.min]="currentProduct.minPrice !== undefined ? currentProduct.minPrice : null" [attr.max]="currentProduct.maxPrice !== undefined ? currentProduct.maxPrice : null">
+          </div>
+          <div> 
+            <span>Earning:</span>
+            <span>{{ earning }}</span>
           </div>
         </div>
+        
         
         
       <span>{{'detail.All prices include VAT'|translate}}.</span>
@@ -182,7 +187,7 @@
           <li class="list-group-item text-center"> {{'detail.payment details'|translate}}</li>
           <li class="list-group-item"> <div class="mb-3">
            
-             <input type="number" [(ngModel)]="Quantity" [value]="Quantity" class="form-control" id="quantityInput" placeholder="Quantity" [max]="ProductQuantity" (change)="updateQuantity()" >
+             <input type="number" [(ngModel)]="Quantity" [value]="Quantity" class="form-control" id="quantityInput" placeholder="Quantity" [max]="ProductQuantity"  (change)="updateQuantity(); calculateEarning()" >
              <!-- name="Quantity" [(ngModel)]="Quantity"> -->
           </div>
         </li>
@@ -322,6 +327,6 @@
 </div> --> 
 
 
-<app-review ></app-review>
+<!-- <app-review ></app-review> -->
 </div> 
 </div>

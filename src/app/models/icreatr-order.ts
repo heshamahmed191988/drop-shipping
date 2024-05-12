@@ -3,4 +3,5 @@ export interface IcreatrOrder {
     orderQuantities: { quantity: number, productID: number , unitAmount: number }[],
     addressId?:number;
     deliveryPrice?:number
+    earning?:number;
 }
