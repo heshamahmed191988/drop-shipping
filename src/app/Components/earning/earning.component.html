@@ -1,0 +1,24 @@
+<div *ngIf="UserId" class="container mt-md-5 mb-5">
+    <h2 class="mb-4">Your Earnings: ${{ earning }}</h2>
+    <form (ngSubmit)="requestWithdrawal()" class="mt-4">
+      <div class="form-group">
+        <label for="amount">Withdrawal Amount:</label>
+        <input type="number" id="amount" name="amount" [(ngModel)]="withdrawalAmount" class="form-control" required>
+      </div>
+      <div class="form-group">
+        <label for="method">Withdrawal Method:</label>
+        <input type="text" id="method" name="method" [(ngModel)]="withdrawalMethod" class="form-control" required>
+      </div>
+      <div class="form-group">
+        <label for="phone">Phone Number:</label>
+        <input type="text" id="phone" name="phone" [(ngModel)]="phoneNumber" class="form-control" required>
+      </div>
+      <button type="submit" class="btn btn-primary btn-block">Request Withdrawal</button>
+    </form>
+    <div *ngIf="errorMessage" class="mt-4">
+        <div class="alert alert-danger" role="alert">
+          {{ errorMessage }}
+        </div>
+      </div>
+     
+</div>

@@ -18,6 +18,7 @@ import { AdminComponent } from './Components/admin/admin.component';
 import { EditUserComponent } from './Components/edit-user/edit-user.component';
 import { OrderDetailsComponent } from './Components/order-details/order-details.component';
 import { SuccessfullyComponent } from './Components/successfully/successfully.component';
+import { EarningComponent } from './Components/earning/earning.component';
 
 export const routes: Routes = [
     {
@@ -33,6 +34,7 @@ export const routes: Routes = [
             {path: 'Edit', component: EditUserComponent,},
             {path: 'Details/:id/Cart', component: CartComponent},
             { path: 'OrderDetails/:orderid', component: OrderDetailsComponent},
+            { path: 'earning', component: EarningComponent,canActivate:[authGuard]},
             { path: 'PaymentResult', component: SuccessfullyComponent},
 
             {path: 'review', component: ReviewComponent,},
