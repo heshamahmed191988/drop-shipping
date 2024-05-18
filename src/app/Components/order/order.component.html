@@ -19,6 +19,11 @@
         <div style="font-weight: 900;">{{'order.Date Placed'|translate}}<div style="font-weight: 100;margin:0 10px;">{{item.datePlaced|date}}</div></div>
         <div style="font-weight: 900;">{{'order.Order Status'|translate }}<div style="font-weight: 100; margin:0 40px;">{{item.status}}</div></div>
         <div style="font-weight: 900;">{{'order.Total'|translate}} <div style="font-weight: 100;margin:0 10px;">{{item.totalPrice}}$</div></div>
+        <div style="font-weight: 900;">city  <div style="font-weight: 100;margin:0 10px;">{{item.city}}$</div></div>
+        <div style="font-weight: 900;">State  <div style="font-weight: 100;margin:0 10px;">{{item.state}}$</div></div>
+        <div style="font-weight: 900;">Street  <div style="font-weight: 100;margin:0 10px;">{{item.street}}$</div></div>
+
+
         <!-- <div style="font-weight: 900;">{{'order.Total'|translate}} <div style="font-weight: 100;margin:0 10px;">  <img [src]="item.barcodeImageUrl" alt="Barcode Image">
 
           <div style="font-weight: 900;">{{ 'order.Total' | translate }}
@@ -32,6 +37,8 @@
       <div class="details">
       <!-- <h6>{{'order.Ring No-Drill Mount for Ring Video Boorbell'|translate}}</h6> -->
         <button (click)="details(item.id)" class="btn" >View your item</button>
+        <button (click)="deleteOrder(item.id)" class="btn btn-danger">Delete Order</button>
+
       </div>
       </div>
       </div>

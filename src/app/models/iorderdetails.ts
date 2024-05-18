@@ -13,5 +13,6 @@ export interface Iorderdetails {
     productDescription?:string
     productPrice?:number
     barcodeImageUrl: string;
+    selectedPrice?:number;
 
 }

@@ -4,4 +4,5 @@ export interface IcreatrOrder {
     addressId?:number;
     deliveryPrice?:number
     earning?:number;
+    selectedPrice?:number
 }

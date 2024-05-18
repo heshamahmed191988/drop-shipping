@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { environment } from '../../environments/environment.development';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, catchError, of } from 'rxjs';
 import { IorderId } from '../models/iorder-id';
 import { IcreatrOrder } from '../models/icreatr-order';
 import { IUpdateOrder } from '../models/iupdate-order';
@@ -33,7 +33,8 @@ export class OrderService {
       orderQuantities: create.orderQuantities,
        addressId: create.addressId,
        deliveryPrice: create.deliveryPrice,
-       earning: create.earning
+       earning: create.earning,
+       selectedPrice: create.selectedPrice
     });
     }
 
@@ -67,11 +68,23 @@ updateOrder(update: IUpdateOrder): Observable<IResultUpdate> {
     httpOptions
   );
 }
-  DeleteOrder(id:number):Observable<void>
-  {
-    return this.httpclient.delete<void>(`${environment.baseUrl}/api/Order/${id}`);
+  // DeleteOrder(id:number):Observable<void>
+  // {
+  //   return this.httpclient.delete<void>(`${environment.baseUrl}/api/Order/${id}`);
+  // }
+  deleteOrder(orderId: number): Observable<any> {
+    const url = `${environment.baseUrl}/api/Order/${orderId}`;
+    return this.httpclient.delete(url).pipe(
+      catchError(this.handleError<any>('deleteOrder'))
+    );
   }
 
+  private handleError<T>(operation = 'operation', result?: T) {
+    return (error: any): Observable<T> => {
+      console.error(error);
+      return of(result as T);
+    };
+  }
   createPayment(orderid:number):Observable<void>
   {
     return this.httpclient.post<void>(`${environment.baseUrl}/api/Payment?orderId=${orderid}`,null)

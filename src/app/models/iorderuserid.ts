@@ -7,5 +7,9 @@ export interface Iorderuserid {
     status:string
     addressId?:number
     barcodeImageUrl: string;
+    street?:string
+    city?:string
+    state?:string
+    zipCode?:string
 
 }

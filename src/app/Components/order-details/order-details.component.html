@@ -13,8 +13,9 @@
                 <p style="color: #067070;">{{orderitem.productname}}</p>
                 <!-- <p>Product Price : <span>{{orderitem.productPrice}}</span></p> -->
                 <p style="color: #067070;">{{orderitem.productDescription}}</p>
-                <!-- <p>{{orderitem.quantity}}</p> -->
-                <p style="color: red;"><sup>EGP</sup>{{(orderitem.quantity) * (orderitem.productPrice ?? 0)}}<sup>00</sup></p>
+                <p style="color: #067070;">number of items: {{orderitem.quantity}}</p>
+                <p style="color: red;">one unit price:<sup>EGP</sup>{{(orderitem.selectedPrice ?? 0)}}<sup>00</sup></p>                <!-- <p>{{orderitem.quantity}}</p> -->
+                <p style="color: red;">total element price:<sup>EGP</sup>{{(orderitem.quantity) * (orderitem.selectedPrice ?? 0)}}<sup>00</sup></p>
                 <button style="    border: 1px solid #ddd;
                 border-radius: 5px;
                 padding: 4px 11px;

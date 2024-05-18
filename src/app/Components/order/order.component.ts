@@ -83,19 +83,39 @@ setUserid() {
       }
     });
   }
+  deleteOrder(orderId: number): void {
+    if (confirm('Are you sure you want to delete this order?')) {
+      this._OrderService.deleteOrder(orderId).subscribe(
+        response => {
+          if (response) {
+            alert('Order deleted successfully.');
+            // Remove the order from the local list
+            this.orders = this.orders.filter(order => order.id !== orderId);
+            this.filteredOrders = this.filteredOrders.filter(order => order.id !== orderId);
+          } else {
+            alert('Failed to delete order: ' + response.Message);
+          }
+        },
+        error => {
+          console.error('Error deleting order:', error);
+          alert('An error occurred while deleting the order.');
+        }
+      );
+    }
+  }
   
 
 
-  delete(id:number){
-    this._OrderService.DeleteOrder(id).subscribe(
-     {
-       next:(res)=>{
-         console.log("deleted successfully");
-       },
-       error:(err)=>{
-         console.log(err);
-       }
-})}
+//   delete(id:number){
+//     this._OrderService.DeleteOrder(id).subscribe(
+//      {
+//        next:(res)=>{
+//          console.log("deleted successfully");
+//        },
+//        error:(err)=>{
+//          console.log(err);
+//        }
+// })}
 
 getaddressidbyuserid(userid: string) {
   if (!userid) return;

@@ -47,6 +47,7 @@ orderErrorMessage: string = '';
     addressId: 0,
     deliveryPrice:5000,
     earning:20,
+    selectedPrice:0,
 
   };
   isCreatingOrder: boolean = false;
