@@ -68,13 +68,13 @@
             <input type="checkbox" > <span class="Fulfilledspan">&nbsp;{{ 'search.Get It by Tomorrow' | translate }}</span><br>
        
              <!---filter by brand-->
-             <span class="filter">{{ 'search.brand' | translate }}</span>
+             <!-- <span class="filter">{{ 'search.brand' | translate }}</span>
              <div *ngFor="let brand of brands" class="brand-container">
                <input name="radioBrand"  type="radio" class="square" (click)="filterByBrand(brand)">
                <span class="filterb">{{ brand }}</span><br>
              </div>
              <!-- Button to clear the brand filter -->
-             <button *ngIf="selectedBrand" (click)="clearBrandFilter()">Clear Brand Filter</button>
+             <!-- <button *ngIf="selectedBrand" (click)="clearBrandFilter()">Clear Brand Filter</button> --> 
              
             <!--filter by price-->
             <p style="margin-bottom: 1px; margin-top: 8px;"><span class="filter" >{{ 'search.Price' | translate }}</span><br>
@@ -89,7 +89,7 @@
             <button (click)="filterByPrice(+minButton.value,+ maxButton.value,selectedBrand)" class="go">{{ 'search.go' | translate }}</button>
             </p>    
                  <!--filter by rating-->
-                   <br><span class="filter">{{ 'search.CustomerReview' | translate }}</span><br>
+                   <!-- <br><span class="filter">{{ 'search.CustomerReview' | translate }}</span><br>
                  <span (click)="filterByRating(5)">
                   <i class="fas fa-star" style="color:#E67A00;"></i> <i class="fas fa-star" style="color:#E67A00;"></i> <i class="fas fa-star" style="color:#E67A00;"></i> <i class="fas fa-star" style="color:#E67A00;"></i> <i class="fas fa-star" style="color:#E67A00;"></i>
                   {{ 'search.only' | translate }}            </span><br>
@@ -108,7 +108,7 @@
                   <i class="fas fa-star" style="color:#E67A00;"></i> <i class="far fa-star" style="color:#E67A00;"></i> <i class="far fa-star" style="color:#E67A00;"></i> <i class="far fa-star" style="color:#E67A00;"></i> <i class="far fa-star" style="color:#E67A00;"></i>
                   {{ 'search.&up' | translate }}
                 </span>
-                <br>       
+                <br>        -->
           </div>    
                     <!--end-->
               <!--secound div--show proudects dive ---->

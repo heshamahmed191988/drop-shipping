@@ -67,6 +67,7 @@ export class EarningComponent implements OnInit {
         console.log('Withdrawal request successful');
         this.withdrawalSubmitted = true; 
         this.earning -= this.withdrawalAmount;
+        
         // Reset withdrawal form fields
         this.withdrawalAmount = 0;
         this.withdrawalMethod = "";
@@ -83,6 +84,8 @@ export class EarningComponent implements OnInit {
         this.errorMessagesuccess = response.message; // Assuming the server responds with a message field
       }
     });
+
+    this.getUserEarning();
   }
   
 }

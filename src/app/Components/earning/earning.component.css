@@ -1,14 +1,27 @@
-.container {
-    max-width: 600px;
-    margin: auto;
+.card {
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Adding shadow */
+  padding: 20px;
+  background-color: #f8f9fa; /* Background color */
+}
+
+.btn-primary {
+  background-color: #007bff; /* Primary button color */
+  border-color: #007bff;
+}
+
+.alert {
+  animation: slideIn 0.5s forwards; /* Animation */
+  display: none; /* Initially hiding the alert */
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateY(-20px);
+    opacity: 0;
   }
-  
-  .alert {
-    animation: fadeOut 3s forwards;
+  to {
+    transform: translateY(0);
+    opacity: 1;
   }
-  
-  @keyframes fadeOut {
-    0% { opacity: 1; }
-    100% { opacity: 0; display: none; }
-  }
-  
+}

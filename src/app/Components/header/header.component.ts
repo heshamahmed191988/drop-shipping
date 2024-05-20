@@ -27,7 +27,7 @@ export class HeaderComponent implements OnInit {
   selectedCategoryId: number = 0;
   user:string=''
 
-
+  dropdownVisible = false;
 
   constructor(private authService: AuthService, private router: Router,
     private CategoryService:CategoryServiceService,private _cart:ICartService,private translate:TranslateService) {}
