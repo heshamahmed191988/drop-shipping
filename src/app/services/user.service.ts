@@ -1,4 +1,4 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Iedituser } from '../models/iedituser';
 import { Observable } from 'rxjs';
@@ -7,6 +7,7 @@ import { environment } from '../../environments/environment.development';
 import { Router } from '@angular/router';
 import { AuthService } from './auth.service';
 import { WithdrawalRequest } from '../models/withdrawal-request';
+import { TransactionDto } from '../models/transaction-dto';
 
 @Injectable({
   providedIn: 'root'
@@ -31,5 +32,17 @@ export class UserService {
 
   requestWithdrawal(withdrawalRequest: WithdrawalRequest): Observable<any> {
     return this.http.post<any>(`${environment.baseUrl}/api/UserInfo/withdrawal`, withdrawalRequest);
+  }
+
+
+
+  getTransactionsByUserId(userId: string, pageNumber: number = 1, pageSize: number = 10): Observable<TransactionDto[]> {
+    const params = new HttpParams()
+      .set('pageNumber', pageNumber.toString())
+      .set('pageSize', pageSize.toString());
+
+    const url = `${environment.baseUrl}/api/UserInfo`;
+
+    return this.http.get<TransactionDto[]>(url, { params: params.append('userId', userId) });
   }
 }

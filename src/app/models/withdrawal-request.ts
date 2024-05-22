@@ -3,4 +3,6 @@ export interface WithdrawalRequest {
     requestedAmount?: number;
     withdrawalMethod?: string;
     phoneNumber?: string;
+    status: string;
+    numberOfWithdrawl:number;
   }

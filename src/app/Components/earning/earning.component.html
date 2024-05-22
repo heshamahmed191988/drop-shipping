@@ -6,6 +6,7 @@
         <label for="amount">Withdrawal Amount:</label>
         <input type="number" id="amount" name="amount" [(ngModel)]="withdrawalAmount" class="form-control" required>
       </div>
+      
       <div class="form-group">
         <label for="method">Withdrawal Method:</label>
         <select id="method" name="method" [(ngModel)]="withdrawalMethod" class="form-control" required>
@@ -17,6 +18,10 @@
       <div class="form-group">
         <label for="phone">Phone Number:</label>
         <input type="text" id="phone" name="phone" [(ngModel)]="phoneNumber" class="form-control" required>
+      </div>
+      <div class="form-group">
+        <label for="phone">numberOfWithdrawl:</label>
+        <input type="text" id="num" name="number" [(ngModel)]="numberOfWithdrawl" class="form-control" required>
       </div>
       <button type="submit" class="btn btn-primary btn-block">Request Withdrawal</button>
     </form>

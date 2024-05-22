@@ -1,0 +1,29 @@
+<div class="container transactions-container mt-4">
+    <table class="table table-bordered">
+      <thead>
+        <tr>
+          <th>number</th>
+          <th>Amount</th>
+          <th>Status</th>
+          <th>Withdrawal Method</th>
+          <th>Date Placed</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let transaction of transactions; let i = index">
+          <td>{{ (currentPage - 1) * pageSize + i + 1 }}</td>
+          <td>{{ transaction.amount | currency }}</td>
+          <td>{{ transaction.status }}</td>
+          <td>{{ transaction.withdrawalMethod }}</td>
+          <td>{{ transaction.datePlaced ? (transaction.datePlaced | date: 'short') : 'N/A' }}</td>
+        </tr>
+      </tbody>
+    </table>
+  
+    <div class="pagination-controls text-center mb-4">
+      <button class="btn btn-primary mr-2" (click)="previousPage()" [disabled]="currentPage === 1">Previous</button>
+      <span>Page {{ currentPage }}</span>
+      <button class="btn btn-primary ml-2" (click)="nextPage()">Next</button>
+    </div>
+  </div>
+  

@@ -19,6 +19,8 @@ export class EarningComponent implements OnInit {
   withdrawalAmount: number = 0;
   withdrawalMethod: string = "";
   phoneNumber: string = "";
+  status:string = "Pending";
+  numberOfWithdrawl:number = 0;
   withdrawalSubmitted: boolean = false;
   errorMessage: string = '';
   errorMessagesuccess:string = '';
@@ -61,6 +63,8 @@ export class EarningComponent implements OnInit {
       requestedAmount: this.withdrawalAmount,
       withdrawalMethod: this.withdrawalMethod,
       phoneNumber: this.phoneNumber,
+      status:this.status,
+      numberOfWithdrawl:this.numberOfWithdrawl,
     }).pipe(
       tap(() => {
         // Withdrawal request successful
