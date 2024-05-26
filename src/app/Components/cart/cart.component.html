@@ -19,6 +19,7 @@
         <div class="gallerybox today_deals_product_list gall1"> 
             <div class="imgbox today_deals_product_item" *ngFor="let product of allProducts"> 
               <img *ngIf="product.productImages && product.productImages.length > 0" [src]="'data:image/jpg;base64,' + product.productImages[0]" >
+              
                 <div class="discount_Contaienr" >
                      <p class="descriptionrelated"><a [href]="'/Details/' + product.id"> {{getProductDescription(product) }}</a> </p>
                       
@@ -94,7 +95,19 @@
                         <dl class="small m-b-none">
                           <dt>{{'cart.Description lists'|translate}}</dt>
                           <dd>{{'cart.A description list is perfect for defining terms'|translate}}</dd>
+                          <div *ngIf="item.colors && item.colors.length > 0">
+                            <div *ngFor="let color of item.colors"
+                                 [ngStyle]="{'background-color': color}"
+                                 (click)="selectColor(color)"
+                                 [class.selected]="color === selectedColor"
+                                 class="color-circle">
+                            </div>
+                          </div>
                           
+                          <!-- Display the selected color -->
+                          <div *ngIf="selectedColor">
+                            Selected Color: <span [ngStyle]="{'background-color': selectedColor}" class="selected-color-display"></span>
+                          </div>
                             <div class="quantity-controls">
                               <button class=" btn-sm btn-secondary" (click)="decreaseQuantity(item)">
                                 <i class="fa fa-minus"></i>

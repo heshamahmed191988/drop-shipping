@@ -287,3 +287,26 @@ margin-bottom: 10px;
   font-weight: bold;
   color: #28a745;
 }
+
+.color-circle {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  display: inline-block;
+  margin: 5px;
+  cursor: pointer;
+  border: 2px solid transparent;
+}
+
+.color-circle.selected {
+  border: 2px solid #000; /* Highlight the selected color */
+}
+
+.selected-color-display {
+  display: inline-block;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  border: 1px solid #000;
+  margin-left: 10px;
+}

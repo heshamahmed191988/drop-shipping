@@ -61,7 +61,11 @@ export class CartComponent implements OnInit {
   orderErrorMessage: string = '';
   isCreatingOrder: boolean = false;
 
+  selectedColor!: string;
 
+  selectColor(color: string) {
+    this.selectedColor = color;
+  }
   public currentProduct: Iproduct = {
     id: 0,
     itemscolor: [],

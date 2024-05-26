@@ -137,7 +137,10 @@
                           <div class="card-body" >
                             <!-- <h2>{{product.stockQuantity}}</h2>  -->
                             <h5 class="card-title" style="color: #E67A00;">{{ getProductName(product)}}</h5>
-                           
+                            <div *ngIf="product.itemscolor && product.itemscolor.length > 0">
+                              <div *ngFor="let color of product.itemscolor" [ngStyle]="{'background-color': color}" class="color-circle"></div>
+                            </div>
+                            
                             <!-- <h5 class="card-title card-titled" >{{ getProductDescription(product) }}</h5>
                             -->   
                             <h5 class="card-title card-titled" [class.expanded]="product.isExpanded" (click)="toggleExpand(product)">{{ getProductDescription(product) }}</h5>

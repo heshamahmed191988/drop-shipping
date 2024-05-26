@@ -3,20 +3,28 @@
 <div class="container col-lg-6 col-md-12 col-xs-12">
   <h1>Add New Address</h1>
     <form [formGroup]="addressForm" (ngSubmit)="onSubmit()" class="col-12">
-      <div class="form-group">
-        <label for="street">Street</label>
-        <input type="text" id="street" class="form-control" formControlName="street">
-      </div>
+      
+      
+      
       <div class="form-group">
         <label for="city">City</label>
-        <input type="text" id="city" class="form-control" formControlName="city">
+        <select id="city" class="form-control" formControlName="city">
+          <option *ngFor="let city of cities" [value]="city">{{ city }}</option>
+        </select>
       </div>
       <div class="form-group">
-        <label for="state">State</label>
+        <label for="street">Street</label>
+        <input type="text" id="streetSearch" class="form-control" placeholder="Search" (input)="filterStreets($event)">
+        <select id="street" class="form-control" formControlName="street">
+          <option *ngFor="let street of filteredStreets" [value]="street">{{ street }}</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="state">The specific Address</label>
         <input type="text" id="state" class="form-control" formControlName="state">
       </div>
       <div class="form-group">
-        <label for="zipCode">Zip Code</label>
+        <label for="zipCode">Phone Number</label>
         <input type="text" id="zipCode" class="form-control" formControlName="zipCode">
       </div>
       <div class="form-group d-none">

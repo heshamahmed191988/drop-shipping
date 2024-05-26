@@ -107,6 +107,19 @@
 
       <h5 class="mt-2">
         <span>{{'detail.price'|translate}} : <span style="color: #B12704; font-size:large;">EGP {{currentProduct.price}}</span></span>
+        <div *ngIf="currentProduct.colors && currentProduct.colors.length > 0">
+          <div *ngFor="let color of currentProduct.colors"
+               [ngStyle]="{'background-color': color}"
+               (click)="selectColor(color)"
+               [class.selected]="color === selectedColor"
+               class="color-circle">
+          </div>
+        </div>
+        
+        <!-- Display the selected color -->
+        <div *ngIf="selectedColor">
+          Selected Color: <span [ngStyle]="{'background-color': selectedColor}" class="selected-color-display"></span>
+        </div>
         <br> <span>{{'detail.Category'|translate}} :<span style="font-size: 16px;color: black;"> {{getCategoryName(currentProduct)}} </span></span></h5>
         <div id="priceSlider" class="price-slider">
           <div class="price-label">

@@ -41,6 +41,11 @@ orderErrorMessage: string = '';
   mainImageUrl!: string ; 
   randomProducts: Iproduct[] = [];
   Products: Iproduct[] = [];
+  selectedColor!: string;
+
+  selectColor(color: string) {
+    this.selectedColor = color;
+  }
   public order: IcreatrOrder = {
     userID: '',
     orderQuantities: [],
@@ -79,7 +84,8 @@ orderErrorMessage: string = '';
     categoryNameEn:'',
     categoryNameAr:'',
     maxPrice:0,
-    minPrice:0
+    minPrice:0,
+    
   };
 
   payPalConfig: IPayPalConfig | undefined;
