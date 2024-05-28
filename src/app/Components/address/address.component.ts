@@ -5,7 +5,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AddressService } from '../../services/address.service';
 import { Address } from '../../models/address';
 import { AuthService } from '../../services/auth.service';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, debounceTime } from 'rxjs';
 import { AddressSharedService } from '../../services/address-shared.service';
 import { Router } from '@angular/router';
 
@@ -4599,16 +4599,7 @@ export class AddressComponent implements OnInit {
 
   ];
   filteredStreets: string[] = [];
-  filterStreets(event: Event) {
-    const searchTerm = (event.target as HTMLInputElement).value; // Cast event.target to HTMLInputElement
-    if (!searchTerm) {
-      this.filteredStreets = this.streets.slice(); // If search term is empty, show all streets
-    } else {
-      this.filteredStreets = this.streets.filter(street =>
-        street.toLowerCase().includes(searchTerm.toLowerCase())
-      );
-    }
-  }
+ 
   cities: string[] = [
     'الأنبار',
     'بابل',
@@ -4633,6 +4624,8 @@ export class AddressComponent implements OnInit {
   addressForm!: FormGroup;
   @Output() addressSubmitted = new EventEmitter<boolean>();
   public isAddressSubmitted: boolean = false;
+  loading: boolean = false;
+
  
   constructor(private fb: FormBuilder, private addressService: AddressService,
     private _AuthService:AuthService,
@@ -4651,11 +4644,40 @@ export class AddressComponent implements OnInit {
       state: ['', [Validators.required, Validators.maxLength(50)]],
       zipCode: ['', Validators.required,],
       userID: ['', Validators.required],
+      clientName: ['', Validators.required]
     });
-    
+    this.addressForm.get('street')?.valueChanges.pipe(
+      debounceTime(300)
+    ).subscribe(searchTerm => this.filterStreets(searchTerm));
 
   }
+  onSearch(event: Event) {
+    const searchTerm = (event.target as HTMLInputElement).value;
+    this.addressForm.get('street')?.setValue(searchTerm, { emitEvent: true });
+  }
 
+  filterStreets(searchTerm: string) {
+    this.loading = true;
+    setTimeout(() => {
+      if (!searchTerm) {
+        this.filteredStreets = this.streets.slice();
+      } else {
+        this.filteredStreets = this.streets.filter(street =>
+          street.toLowerCase().includes(searchTerm.toLowerCase())
+        );
+      }
+      this.loading = false;
+    }, 300); // Simulate a delay for loading indicator
+  }
+
+  highlightMatch(street: string): string {
+    const searchTerm = this.addressForm.get('street')?.value || '';
+    if (!searchTerm) {
+      return street;
+    }
+    const regex = new RegExp(`(${searchTerm})`, 'gi');
+    return street.replace(regex, '<strong>$1</strong>');
+  }
   onSubmit() {
   if (this.addressForm.valid) {
     const address: Address = this.addressForm.value;

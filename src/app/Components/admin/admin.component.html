@@ -1,22 +1,22 @@
-<h3 style="text-align: center;" class="mt-5">Your Account</h3>
+<h3 style="text-align: center;" class="mt-5">{{ 'footer.Your Account' | translate }}</h3>
 
   <div class="parent ">
 <!-- Only show if UserId is falsy -->
 <div class="login dv" *ngIf="!UserId">
   <img src="https://m.media-amazon.com/images/G/01/x-locale/cs/help/images/gateway/self-service/security._CB659600413_.png" alt="">
-  <button routerLink="/login">Login</button>
+  <button routerLink="/login">{{ 'header.login' | translate }}</button>
 </div>
 
 <!-- Only show if UserId is falsy -->
 <div class="Register dv" *ngIf="!UserId">
   <img src="https://m.media-amazon.com/images/G/01/x-locale/cs/help/images/gateway/self-service/security._CB659600413_.png" alt="">
-  <button routerLink="/register">Register</button>
+  <button routerLink="/register">{{ 'header.register' | translate }}</button>
 </div>
 
 
     <div class="logout dv" *ngIf="UserId">
         <img src="https://m.media-amazon.com/images/G/01/x-locale/cs/help/images/gateway/self-service/security._CB659600413_.png" alt="">
-        <button [disabled]="!UserId" (click)="logout()">Logout</button>
+        <button [disabled]="!UserId" (click)="logout()">{{ 'header.logout' | translate }}</button>
     </div>
 
 
@@ -25,16 +25,16 @@
   <div class="parent2 parent">
     <div class="logout dv">
         <img src="https://m.media-amazon.com/images/G/01/x-locale/cs/help/images/gateway/self-service/order._CB660668735_.png" alt="">
-          <button [disabled]="!UserId"  routerLink="/Order">Your Orders</button>
+          <button [disabled]="!UserId"  routerLink="/Order">{{ 'footer.Your Orders' | translate }}</button>
     </div>
 
     <div class="logout dv">
         <img src="https://m.media-amazon.com/images/G/01/x-locale/cs/help/images/gateway/self-service/account._CB660668669_.png" alt="">
-       <button [disabled]="!UserId"  routerLink="/earning">Your Earning </button>
+       <button [disabled]="!UserId"  routerLink="/earning">{{ 'main.Your Earning' | translate }}</button>
     </div>
     <div class="logout dv">
       <img src="https://m.media-amazon.com/images/G/01/x-locale/cs/help/images/gateway/self-service/account._CB660668669_.png" alt="">
-     <button [disabled]="!UserId"  routerLink="/transactions">Your Transactions </button>
+     <button [disabled]="!UserId"  routerLink="/transactions">{{ 'main.Your Transactions' | translate }} </button>
   </div>
   </div>
   

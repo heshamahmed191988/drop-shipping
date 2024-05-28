@@ -1,29 +1,29 @@
-<div *ngIf="UserId" class="container mt-md-5 mb-5">
+<div *ngIf="UserId" class="container mt-md-5 mb-5 " [dir]="'dir' | translate">
   <div class="card">
-    <h2 class="mb-4 text-center">Your Earnings: ${{ earning }}</h2>
+    <h2 class="mb-4 text-center">{{ 'main.Your Earning' | translate }}  {{ earning }}</h2>
     <form (ngSubmit)="requestWithdrawal()" class="mt-4">
       <div class="form-group">
-        <label for="amount">Withdrawal Amount:</label>
+        <label for="amount">{{ 'main.Withdrawal Amount' | translate }}</label>
         <input type="number" id="amount" name="amount" [(ngModel)]="withdrawalAmount" class="form-control" required>
       </div>
       
       <div class="form-group">
-        <label for="method">Withdrawal Method:</label>
+        <label for="method">{{ 'main.Withdrawal Method' | translate }}</label>
         <select id="method" name="method" [(ngModel)]="withdrawalMethod" class="form-control" required>
             <option value="مصرف الرافدين">مصرف الرافدين</option>
             <option value="زين كاش">زين كاش</option>
         </select>
     </div>
-    
+    <div class="form-group">
+      <label for="phone">{{ 'main.numberOfWithdrawl' | translate }}</label>
+      <input type="text" id="num" name="number" [(ngModel)]="numberOfWithdrawl" class="form-control" required>
+    </div>
       <div class="form-group">
-        <label for="phone">Phone Number:</label>
+        <label for="phone">{{ 'main.Phone Number' | translate }}</label>
         <input type="text" id="phone" name="phone" [(ngModel)]="phoneNumber" class="form-control" required>
       </div>
-      <div class="form-group">
-        <label for="phone">numberOfWithdrawl:</label>
-        <input type="text" id="num" name="number" [(ngModel)]="numberOfWithdrawl" class="form-control" required>
-      </div>
-      <button type="submit" class="btn btn-primary btn-block">Request Withdrawal</button>
+      
+      <button type="submit" class="btn btn-primary btn-block">{{ 'main.Request Withdrawal' | translate }}</button>
     </form>
     <div *ngIf="errorMessage" class="mt-4 alert alert-danger" role="alert">
       {{ errorMessage }}

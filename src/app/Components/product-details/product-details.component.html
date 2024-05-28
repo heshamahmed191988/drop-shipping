@@ -118,25 +118,25 @@
         
         <!-- Display the selected color -->
         <div *ngIf="selectedColor">
-          Selected Color: <span [ngStyle]="{'background-color': selectedColor}" class="selected-color-display"></span>
+          {{'detail.Selected Color'|translate}} : <span [ngStyle]="{'background-color': selectedColor}" class="selected-color-display"></span>
         </div>
         <br> <span>{{'detail.Category'|translate}} :<span style="font-size: 16px;color: black;"> {{getCategoryName(currentProduct)}} </span></span></h5>
         <div id="priceSlider" class="price-slider">
           <div class="price-label">
-            <span>Min Price:</span>
+            <span>{{'detail.Min Price'|translate}}:</span>
             <span>{{ currentProduct.minPrice }}</span>
           </div>
           <input type="range" [min]="currentProduct.minPrice" [max]="currentProduct.maxPrice" [(ngModel)]="selectedSliderPrice" (input)="onPriceChange($event)" class="slider" id="priceRange">
           <div class="price-label">
-            <span>Max Price:</span>
+            <span>{{'detail.Max Price'|translate}}:</span>
             <span>{{ currentProduct.maxPrice }}</span>
           </div>
           <div class="selected-price">
-            <span>Selected Price:</span>
+            <span>{{'detail.Selected Price'|translate}}:</span>
             <input type="number" [(ngModel)]="selectedSliderPrice" (input)="onInputPriceChange()" class="form-control" id="selectedPriceInput" placeholder="Selected Price" [attr.min]="currentProduct.minPrice !== undefined ? currentProduct.minPrice : null" [attr.max]="currentProduct.maxPrice !== undefined ? currentProduct.maxPrice : null">
           </div>
           <div> 
-            <span>Earning:</span>
+            <span>{{'detail.Earning'|translate}}:</span>
             <span>{{ earning }}</span>
           </div>
         </div>
@@ -196,7 +196,7 @@
   <div class="last col-md-12 col-lg-2 mt-2 mx-lg-3 " style="width: auto;">
     <div class="card col-12 ">
         <ul class="list-group list-group-flush">
-          <li class="list-group-item text-center"><h5><sup>EGP</sup> {{currentProduct.price*Quantity}}<sup>00</sup></h5></li>
+          <li class="list-group-item text-center"><h5><sup>IRQ</sup> {{currentProduct.price*Quantity}}<sup>00</sup></h5></li>
           <li class="list-group-item text-center"> {{'detail.payment details'|translate}}</li>
           <li class="list-group-item"> <div class="mb-3">
            

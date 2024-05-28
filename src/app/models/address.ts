@@ -6,4 +6,5 @@ export interface Address {
   zipCode: string;
   userID: string;
   orderIds?: number[];
+  clientName?:string;
 }

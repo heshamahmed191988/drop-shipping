@@ -1,12 +1,12 @@
-<div class="container transactions-container mt-4">
+<div class="container transactions-container mt-4"  [dir]="'dir' | translate">
     <table class="table table-bordered">
       <thead>
         <tr>
-          <th>number</th>
-          <th>Amount</th>
-          <th>Status</th>
-          <th>Withdrawal Method</th>
-          <th>Date Placed</th>
+          <th>{{ 'main.number' | translate }}</th>
+          <th>{{ 'main.Amount' | translate }}</th>
+          <th>{{ 'main.Status' | translate }}</th>
+          <th>{{ 'main.Withdrawal Method' | translate }}</th>
+          <th>{{ 'main.Date Placed' | translate }}</th>
         </tr>
       </thead>
       <tbody>
