@@ -4643,7 +4643,10 @@ orderErrorMessage: string = '';
   randomProducts: Iproduct[] = [];
   Products: Iproduct[] = [];
   selectedColor!: string;
+ //cart part
   public product: Iproduct[] = [];
+  selectedPrices: number[] = [];
+  UserIdcart: string = "";
 
   selectColor(color: string) {
     this.selectedColor = color;
@@ -4702,7 +4705,7 @@ private orderservice: OrderService) {
     }
 
   ngOnInit(): void {
-    //debugger
+    debugger
     const orderData = this.sharedDataService.getOrderData();
     this.selectedSliderPrice = orderData.selectedSliderPrice;
     this.earning = orderData.earning;
@@ -4719,6 +4722,10 @@ private orderservice: OrderService) {
     this.order.deliveryPrice=orderData.deliveryPrice;
     this.order.selectedPrice=orderData.selectedPrice;
     this.currentId=orderData.currentId;
+    //cart part
+    this.selectedPrices=orderData.selectedPrices;
+    this.UserIdcart=orderData.UserIdcart;
+    this.product=orderData.product;
 
     this.setUserid();
     this.addressForm = this.fb.group({
@@ -4767,7 +4774,11 @@ private orderservice: OrderService) {
     this.addressService.createAddress(address).subscribe({
       next: (res) => {
         if (res.id !== undefined) {
-          this.createOrder(res.id);
+          if (this.selectedPrices.length === 0) {
+            this.createOrder(res.id);
+          } else {
+            this.createOrderCart(res.id);
+          }
       } else {
           console.error('Error: Address ID is undefined');
           // Handle the case where addressId is undefined
@@ -4850,6 +4861,56 @@ resetOrder(): void {
   this.orderErrorMessage = '';
   this.isOrderProcessing = false;
   this.isCreatingOrder = false;
+}
+
+createOrderCart(addressId: number): void {
+  //debugger
+  // Assuming you have already populated the order details (userId, orderQuantities, addressId)
+  this.isOrderProcessing = true;
+  this.isCreatingOrder = true;
+
+  const orderData: IcreatrOrder = {
+    userID: this.UserIdcart,
+    orderQuantities: this.product.map((item,index) => ({
+      quantity: item.quantity !== undefined ? item.quantity : 0,
+      productID: item.id,
+      unitAmount: Number(this.selectedPrices[index]),
+    })),
+    addressId: addressId,
+    deliveryPrice:this.order.deliveryPrice,
+    earning: this.calculateTotalEarning()
+  };
+
+  this.orderservice.CreateOrder(orderData).subscribe(
+    (response) => {
+      // Handle success response
+      console.log("Order created successfully:", response);
+      this.resetOrder(); // Optionally, reset order or perform other actions
+      // Handle success UI updates or navigation if applicable
+    },
+    (error) => {
+      // Handle error response
+      console.error("Error creating order:", error);
+      this.resetOrder(); // Reset order or perform other error handling
+      this.orderErrorMessage = "There was a problem creating the order. Please try again.";
+    }
+  ).add(() => {
+    this.isOrderProcessing = false;
+    this.router.navigateByUrl("/Order"); // Route to order confirmation or relevant page
+  });
+  
+}
+
+calculateTotalEarning(): number {
+  let totalEarning = 0;
+  this.product.forEach((item, index) => {
+      const actualPrice = item.price;
+      const selectedPrice = this.selectedPrices[index];
+      const quantity = item.quantity || 0;
+      const earningForItem = (selectedPrice - actualPrice) * quantity;
+      totalEarning += earningForItem;
+  });
+  return totalEarning;
 }
 }
 

@@ -7,6 +7,9 @@ import {
   ViewChild,
   ElementRef,
   OnInit,
+  OnDestroy,
+  OnChanges,
+  SimpleChanges,
 } from "@angular/core";
 import { FormsModule } from "@angular/forms";
 
@@ -26,6 +29,7 @@ import { TranslateModule } from "@ngx-translate/core";
 import { ProductServiceService } from "../../services/product-service.service";
 import { ProductStateService } from "../../services/product-state.service";
 import { OrderService } from "../../services/order.service";
+import { SharedService } from "../../services/shared.service";
 
 @Component({
   selector: "app-cart",
@@ -41,7 +45,7 @@ import { OrderService } from "../../services/order.service";
   templateUrl: "./cart.component.html",
   styleUrl: "./cart.component.css",
 })
-export class CartComponent implements OnInit {
+export class CartComponent implements OnInit,OnDestroy ,OnChanges{
   selectedPrices: number[] = [];
 
   // public totalITeam:number=0
@@ -173,7 +177,8 @@ calculateEarning(index: number): number {
     private _ProductServiceService: ProductServiceService,
     private productStateService: ProductStateService,
     private activatedrouter: ActivatedRoute,
-    private orderservice:OrderService
+    private orderservice:OrderService,
+    private sharedDataService: SharedService
   ) {
     this.setUserid();
     console.log(this.UserId);
@@ -183,6 +188,22 @@ calculateEarning(index: number): number {
       this.grandToltal = this._Cart.getTotalPrice();
     });
 
+  }
+  ngOnChanges(changes: SimpleChanges): void {
+    const orderData = this.sharedDataService.getOrderData();
+    orderData.selectedPrices=this.selectedPrices;
+    orderData.product=this.product;
+    orderData.UserIdcart=this.UserId;
+    this.sharedDataService.updateOrderData(orderData);
+
+    }
+  ngOnDestroy(): void {
+    
+    const orderData = this.sharedDataService.getOrderData();
+    orderData.selectedPrices=this.selectedPrices;
+    orderData.product=this.product;
+    orderData.UserIdcart=this.UserId;
+    this.sharedDataService.updateOrderData(orderData);
   }
 
 

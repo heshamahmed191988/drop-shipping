@@ -193,12 +193,12 @@
               <li class="list-group-item text-center">
                 <button class="btn-add-to-cart w-100" 
                         style="background-color: #fa8900; border-radius: 12px;"
-                        *ngIf="!isAddressSubmitted && !isCreatingOrder"
+                        
                         (click)="gottoAddress()">
                     {{ 'detail.Buy Now' | translate }}
                 </button>
             </li>
-            <li class="list-group-item text-center">
+            <!-- <li class="list-group-item text-center">
                 <button class="btn-add-to-cart w-100" 
                         style="background-color: #fa8900; border-radius: 12px;"
                         *ngIf="isAddressSubmitted && !isCreatingOrder"
@@ -210,7 +210,8 @@
                         *ngIf="isCreatingOrder">
                     Creating Order...
                 </button>
-            </li>            </div>
+            </li>           -->
+            </div>
           </div>
         </div>
       </div>

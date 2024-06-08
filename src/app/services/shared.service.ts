@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { IcreatrOrder } from '../models/icreatr-order';
+import { Iproduct } from '../models/iproduct';
 
 @Injectable({
   providedIn: 'root'
@@ -24,6 +25,11 @@ export class SharedService {
     selectedPrice:0,
 
   };
+//cart part
+  UserIdcart: string = "";
+  public product: Iproduct[] = [];
+  selectedPrices: number[] = [];
+
 
   constructor() { }
 
@@ -43,6 +49,11 @@ export class SharedService {
     this.order.deliveryPrice=data.deliveryPrice;
     this.order.earning=data.earning;
     this.order.selectedPrice=data.selectedPrice;
+
+    /////cart part
+    this.UserIdcart = data.UserIdcart;
+    this.product = data.product;
+    this.selectedPrices = data.selectedPrices;
   }
 
   getOrderData() {
@@ -62,6 +73,10 @@ export class SharedService {
       deliveryPrice: this.order.deliveryPrice,
       Earning: this.order.earning,
       selectedPrice: this.order.selectedPrice,
+      //cart part
+      UserIdcart: this.UserIdcart,
+      product: this.product,
+      selectedPrices: this.selectedPrices,
     }
   }
 }

@@ -106,7 +106,7 @@
       }
 
       <h5 class="mt-2">
-        <span>{{'detail.price'|translate}} : <span style="color: #B12704; font-size:large;">EGP {{currentProduct.price}}</span></span>
+        <span>{{'detail.price'|translate}} : <span style="color: #B12704; font-size:large;">IQD {{currentProduct.price}}</span></span>
         <div *ngIf="currentProduct.colors && currentProduct.colors.length > 0">
           <div *ngFor="let color of currentProduct.colors"
                [ngStyle]="{'background-color': color}"
@@ -196,7 +196,7 @@
   <div class="last col-md-12 col-lg-2 mt-2 mx-lg-3 " style="width: auto;">
     <div class="card col-12 ">
         <ul class="list-group list-group-flush">
-          <li class="list-group-item text-center"><h5><sup>IRQ</sup> {{currentProduct.price*Quantity}}<sup>00</sup></h5></li>
+          <li class="list-group-item text-center"><h5><sup>IQD</sup> {{currentProduct.price*Quantity}}<sup>00</sup></h5></li>
           <li class="list-group-item text-center"> {{'detail.payment details'|translate}}</li>
           <li class="list-group-item"> <div class="mb-3">
            
@@ -206,13 +206,15 @@
         </li>
         <li class="list-group-item text-center" >  <button [disabled]="!currentProduct || (currentProduct.stockQuantity !== undefined && Quantity > currentProduct.stockQuantity)"  class="btn-buy-now w-100" style="background-color: #f7ca00;border-radius: 12px;" (click)="addToCart(currentProduct,Quantity)" routerLink="/Cart" routerLinkActive="router-link-active"  >{{'detail.Add to Cart'|translate}}</button>
           <li class="list-group-item text-center">
-            <button class="btn-add-to-cart w-100" 
-                    style="background-color: #fa8900; border-radius: 12px;"
-                    
-                    (click)="gottoAddress()">
-                {{ 'detail.Buy Now' | translate }}
+            <button 
+              [disabled]="!currentProduct || (currentProduct.minPrice !== undefined && selectedSliderPrice < currentProduct.minPrice)" 
+              class="btn-add-to-cart w-100" 
+              style="background-color: #fa8900; border-radius: 12px;" 
+              (click)="gottoAddress()">
+              {{ 'detail.Buy Now' | translate }}
             </button>
-        </li>
+          </li>
+          
         <!-- <li class="list-group-item text-center">
             <button class="btn-add-to-cart w-100" 
                     style="background-color: #fa8900; border-radius: 12px;"
@@ -284,7 +286,7 @@
           <i class="far fa-star" style="color:#E67A00;"></i> <i class="far fa-star" style="color:#E67A00;"></i> <i class="far fa-star" style="color:#E67A00;"></i> <i class="far fa-star" style="color:#E67A00;"></i> <i class="far fa-star" style="color:#E67A00;"></i>
         }
         <span>{{reviewlength}}</span>
-        <p class="pname"><sup>EGP</sup><span style="font-size: 25px;">{{product.price }}</span><sup>00</sup></p>
+        <p class="pname"><sup>IQD</sup><span style="font-size: 25px;">{{product.price }}</span><sup>00</sup></p>
       </div>
     </div>
   </div>

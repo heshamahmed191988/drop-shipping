@@ -169,7 +169,7 @@ orderErrorMessage: string = '';
 
   ngOnInit(): void { 
     window.scrollTo(0, 0);
-    this.animationService.openspinner();
+        this.animationService.openspinner();
     //this.fetchReviews();
 
     this.activatedrouter.paramMap.subscribe((paramMap) => {
@@ -232,7 +232,7 @@ orderErrorMessage: string = '';
       });
     });
     //this.fetchReviews();
-
+    
     // this.setUserid()
    // this.payPalConfig = this._PaypalService.payPalConfig;
   }
@@ -295,6 +295,7 @@ orderErrorMessage: string = '';
   }
   onInputPriceChange(): void {
     // Ensure selected price is within the valid range
+    
     if (this.currentProduct && this.currentProduct.minPrice !== undefined && this.currentProduct.maxPrice !== undefined) {
         if (this.selectedSliderPrice < this.currentProduct.minPrice) {
             this.selectedSliderPrice = this.currentProduct.minPrice; // Set to minPrice if value is less than min
