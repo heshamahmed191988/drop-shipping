@@ -1,4 +1,4 @@
-import { Component, EventEmitter, OnChanges, OnInit, SimpleChanges, input, output } from '@angular/core';
+import { Component, EventEmitter, OnChanges, OnDestroy, OnInit, SimpleChanges, input, output } from '@angular/core';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { CommonModule, Location } from '@angular/common';
 import { ProductServiceService } from '../../services/product-service.service';
@@ -21,6 +21,7 @@ import { ReviewService } from '../../services/review.service';
 import { NgxSpinnerModule, NgxSpinnerService } from 'ngx-spinner';
 import { AnimationService } from '../../services/animation.service';
 import { OrderService } from '../../services/order.service';
+import { SharedService } from '../../services/shared.service';
 @Component({
   selector: 'app-product-details',
   standalone: true,
@@ -28,7 +29,7 @@ import { OrderService } from '../../services/order.service';
   styleUrls: ['./product-details.component.css'],
   imports: [CommonModule,FormsModule, ReviewComponent,SafeBase64Pipe,TranslateModule,NgxPayPalModule,FormsModule,RouterLink,NgxSpinnerModule]
 })
-export class ProductDetailsComponent implements OnInit {
+export class ProductDetailsComponent implements OnInit,OnChanges,OnDestroy{
   selectedSliderPrice: number = 0;
   earning: number = 0;
   public Quantity: number = 1;
@@ -102,7 +103,8 @@ orderErrorMessage: string = '';
      private reviewService: ReviewService,
      private spinner:NgxSpinnerService,
      private animationService: AnimationService,
-    private orderservice: OrderService) {
+    private orderservice: OrderService,
+  private sharedDataService: SharedService) {
     this.setUserid();
     
         this._PaypalService.updateOrderData.subscribe({
@@ -122,8 +124,50 @@ orderErrorMessage: string = '';
       }
     })
   }
+  ngOnDestroy(): void {
+    
+    const orderData = this.sharedDataService.getOrderData();
+    orderData.selectedSliderPrice = this.selectedSliderPrice;
+    orderData.earning=this.earning ;
+    //orderData.Earning=this.order.earning;
+    orderData.quantity=this.Quantity ;
+    orderData.userId=this.UserId  ;
+    orderData.addressId=this.adressId  ;
+    orderData.AddressId=this.order.addressId;
+    orderData.orderErrorMessage=this.orderErrorMessage ;
+    orderData.isOrderProcessing=this.isOrderProcessing ;
+    orderData.isCreatingOrder=this.isCreatingOrder;
+    //this.order.userID=orderData.userID;
+    orderData.orderQuantities=this.order.orderQuantities;
+    orderData.deliveryPrice=this.order.deliveryPrice;
+    //orderData.selectedPrice=this.order.selectedPrice;
+    orderData.currentId=this.currentId;
+    this.sharedDataService.updateOrderData(orderData);
+  }
 
-  ngOnInit(): void {
+  
+  ngOnChanges(changes: SimpleChanges): void {
+    
+    const orderData = this.sharedDataService.getOrderData();
+    orderData.selectedSliderPrice = this.selectedSliderPrice;
+    orderData.earning=this.earning ;
+    orderData.Earning=this.order.earning;
+    orderData.quantity=this.Quantity ;
+    orderData.userId=this.UserId  ;
+    orderData.addressId=this.adressId  ;
+    orderData.AddressId=this.order.addressId;
+    this.orderErrorMessage= orderData.orderErrorMessage;
+    this.isOrderProcessing = orderData.isOrderProcessing;
+    this.isCreatingOrder=orderData.isCreatingOrder;
+    this.order.userID=orderData.userID;
+    this.order.orderQuantities=orderData.orderQuantities;
+    this.order.deliveryPrice=orderData.deliveryPrice;
+    this.order.selectedPrice=orderData.selectedPrice;
+    this.currentId=orderData.currentId;
+    this.sharedDataService.updateOrderData(orderData);
+  }
+
+  ngOnInit(): void { 
     window.scrollTo(0, 0);
     this.animationService.openspinner();
     //this.fetchReviews();
@@ -219,7 +263,7 @@ orderErrorMessage: string = '';
         deliveryPrice: this.order.deliveryPrice,
         earning:this.order.earning,
     };
-
+    
     // Send order data to the server
     this.orderservice.CreateOrder(orderData).subscribe(
         (response) => {

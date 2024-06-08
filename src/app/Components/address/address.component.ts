@@ -9,6 +9,10 @@ import { BehaviorSubject, debounceTime } from 'rxjs';
 import { AddressSharedService } from '../../services/address-shared.service';
 import { Router } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
+import { Iproduct } from '../../models/iproduct';
+import { IcreatrOrder } from '../../models/icreatr-order';
+import { SharedService } from '../../services/shared.service';
+import { OrderService } from '../../services/order.service';
 
 @Component({
   selector: 'app-address',
@@ -4626,18 +4630,96 @@ export class AddressComponent implements OnInit {
   @Output() addressSubmitted = new EventEmitter<boolean>();
   public isAddressSubmitted: boolean = false;
   loading: boolean = false;
+  selectedSliderPrice: number = 0;
+  earning: number = 0;
+  public Quantity: number = 1;
+  public UserId: string = "";
+  // "82b5b776-9a7a-4556-99e6-983e9509064d;
+  adressId:number = 0;
+  isOrderProcessing: boolean = false;
+orderErrorMessage: string = '';
+  ProductQuantity: number= 1;
+  mainImageUrl!: string ; 
+  randomProducts: Iproduct[] = [];
+  Products: Iproduct[] = [];
+  selectedColor!: string;
+  public product: Iproduct[] = [];
 
+  selectColor(color: string) {
+    this.selectedColor = color;
+  }
+  public order: IcreatrOrder = {
+    userID: '',
+    orderQuantities: [],
+    addressId: 0,
+    deliveryPrice:5000,
+    earning:20,
+    selectedPrice:0,
+
+  };
+  isCreatingOrder: boolean = false;
+  currentId: number = 0;
+
+    public total: number = 0
+  lang: string = 'en';
+  //  selectedCategoryId = Math.floor(Math.random() * 10) + 1;
+  selectedCategoryId: number =0;
+  public pageNumber: number = 1;
+  public pageSize: number =3;
+  reviewlength: number =0;
+  
+  public currentProduct: Iproduct = {
+    id: 0,
+    itemscolor: [],
+    productimages: [],
+    nameAr: '',
+    nameEn: '',
+    brandNameAr: '',
+    brandNameEn: '',
+    descriptionAr: '',
+    descriptionEn: '',
+    colors: [],
+    itemimages: [],
+    productDescription: '',
+    price: 0,
+    rating:0,
+    categoryNameEn:'',
+    categoryNameAr:'',
+    maxPrice:0,
+    minPrice:0,
+    
+  };
  
   constructor(private fb: FormBuilder, private addressService: AddressService,
     private _AuthService:AuthService,
     private addressshared:AddressSharedService
-    ,private router:Router) {
+    ,private router:Router,
+  private sharedDataService: SharedService,
+private orderservice: OrderService) {
       this.cityForm = this.fb.group({
         city: ['']
       });
     }
 
   ngOnInit(): void {
+    //debugger
+    const orderData = this.sharedDataService.getOrderData();
+    this.selectedSliderPrice = orderData.selectedSliderPrice;
+    this.earning = orderData.earning;
+    this.order.earning = orderData.Earning;
+    this.Quantity = orderData.quantity;
+    this.UserId = orderData.userId;
+    this.adressId = orderData.addressId;
+    this.order.addressId=orderData.AddressId;
+    this.orderErrorMessage= orderData.orderErrorMessage;
+    this.isOrderProcessing = orderData.isOrderProcessing;
+    this.isCreatingOrder=orderData.isCreatingOrder;
+    this.order.userID=orderData.userID;
+    this.order.orderQuantities=orderData.orderQuantities;
+    this.order.deliveryPrice=orderData.deliveryPrice;
+    this.order.selectedPrice=orderData.selectedPrice;
+    this.currentId=orderData.currentId;
+
     this.setUserid();
     this.addressForm = this.fb.group({
       street: ['', [Validators.required, Validators.maxLength(100)]],
@@ -4684,9 +4766,16 @@ export class AddressComponent implements OnInit {
     const address: Address = this.addressForm.value;
     this.addressService.createAddress(address).subscribe({
       next: (res) => {
+        if (res.id !== undefined) {
+          this.createOrder(res.id);
+      } else {
+          console.error('Error: Address ID is undefined');
+          // Handle the case where addressId is undefined
+      }
         console.log('Address created successfully:', res);
         this.addressForm.reset();
-        this.addressshared.setAddressSubmitted(true); // Use the shared service to set the submission flag
+        this.addressshared.setAddressSubmitted(true);
+         // Use the shared service to set the submission flag
         this.navigateBack(); // Assuming '/cart' is your route to the cart component
       },
       error: (err) => console.error('Error creating address:', err)
@@ -4702,6 +4791,65 @@ export class AddressComponent implements OnInit {
   navigateBack(): void {
     window.history.back();
   }
-  
+  createOrder(addressId: number): void {
+    //debugger
+    // Assuming you have already populated the order details, add the logic to send the order to the server
+    // You can use the OrderService to send the order data
+    this.isOrderProcessing = true;
+    this.isCreatingOrder = true;
+    // Update order data
+    // this.order.userID = this.UserId;
+    // this.order.addressId = this.adressId;
+    // this.order.earning = this.earning;
+
+
+    // Prepare order data
+    const orderData = {
+        userID: this.UserId,
+        orderQuantities: this.order.orderQuantities.map(item => ({
+          quantity: this.Quantity,
+          productID: this.currentId,
+          unitAmount: Number(this.selectedSliderPrice)
+        })),
+        addressId: addressId,
+        deliveryPrice: this.order.deliveryPrice,
+        earning:this.order.earning,
+    };
+    // Send order data to the server
+    this.orderservice.CreateOrder(orderData).subscribe(
+        (response) => {
+            // Handle success response
+           // console.log('Order created successfully:', response);
+            // Optionally, reset the order or perform any other actions
+            this.isOrderProcessing = false;
+
+            this.resetOrder();
+        },
+        (error) => {
+            // Handle error response
+            //console.error('Error creating order:', error);
+            // Optionally, reset the order or perform any other error handling
+            this.resetOrder();
+            this.orderErrorMessage = 'There was a problem creating the order. Please try again.';
+
+        }).add(() => {
+          this.isOrderProcessing = false;
+          this.router.navigateByUrl('/Order');
+
+      });
+    
+}
+resetOrder(): void {
+  this.order = {
+    userID: '',
+    orderQuantities: [],
+    addressId: 0,
+    deliveryPrice: 5000,
+    earning: 0
+  };
+  this.orderErrorMessage = '';
+  this.isOrderProcessing = false;
+  this.isCreatingOrder = false;
+}
 }
 
