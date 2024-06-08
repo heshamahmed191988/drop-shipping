@@ -20,7 +20,7 @@
       
                       <div class="in d-flex search-div d-sm-flex d-md-flex d-lg-none" style="display:flex;margin-top: -17px;">
                           <input [(ngModel)]="searchQuery" type="text" class="Searchinput form-control"
-                              aria-label="Text input with dropdown button" placeholder="Search Amazon.eg"
+                              aria-label="Text input with dropdown button" placeholder="Search "
                               (keyup.enter)="searchProducts()" style=" max-width:90% !important; border-radius: 0;">
                           <button class="btn btn-outline-light" (click)="searchProducts()" type="submit"
                               style="margin-right: 8px;
@@ -61,7 +61,7 @@
   
                   <div class="in d-none d-sm-none d-md-none d-lg-flex" style="display:flex;margin-top: -17px;">
                       <input [(ngModel)]="searchQuery" type="text" class="Searchinput form-control"
-                          aria-label="Text input with dropdown button" placeholder="Search Amazon.eg"
+                          aria-label="Text input with dropdown button" placeholder="Search"
                           (keyup.enter)="searchProducts()" style=" border-radius: 0;">
                       <button class="btn btn-outline-light" (click)="searchProducts()" type="submit"
                           style="margin-right: 8px;
@@ -84,9 +84,20 @@
                                   {{lang | translate}} -->
                               </a>
                               <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                                  <li><a class="dropdown-item"  (click)="changelanguage('en')" >English</a></li>
-                                  <li><a class="dropdown-item"  (click)="changelanguage('ar')" >Arabic</a></li>
-                              </ul>
+                                <li>
+                                    <a class="dropdown-item" (click)="changelanguage('en')">
+                                        <img src="https://upload.wikimedia.org/wikipedia/commons/f/fe/Flag_of_Egypt.svg" alt="English Flag" style="width: 16px; height: 16px; margin-right: 8px;">
+                                        English
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item" (click)="changelanguage('ar')">
+                                        <img src="https://e7.pngegg.com/pngimages/107/894/png-clipart-london-flag-of-the-united-kingdom-zazzle-flag-of-england-england-flag-world.png" alt="Arabic Flag" style="width: 16px; height: 16px; margin-right: 8px;">
+                                        Arabic
+                                    </a>
+                                </li>
+                            </ul>
+                            
                           </div>
                         </li>
   
@@ -147,12 +158,16 @@
         </nav>
       </div>
       <nav class="navbar-sec sec-nav navbar-expand-lg navbar-dark" style="height: auto;">
-        <ul class="navbar-nav" style=" padding: 2px;">
-            @for(category of categories ; track category.id){
-                <li class="nav-item"><a [href]="'/SearchForProudectComponent;name=;categoryId=' + category.id">{{getCategoryName(category)}}</a></li>
-            }
+        <ul class="navbar-nav" style="padding: 2px;">
+            <!-- Use Angular routerLink directive to navigate -->
+            <li class="nav-item" *ngFor="let category of categories">
+                <a [routerLink]="['/SearchForProudectComponent', { name: '', categoryId: category.id }]">
+                    {{ getCategoryName(category) }}
+                </a>
+            </li>
         </ul>
     </nav>
+    
  </body>
 
  

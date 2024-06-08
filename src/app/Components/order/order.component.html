@@ -17,11 +17,11 @@
           <div class="ordertotal" style="padding-top: 30px;">
         <div class="order">
         <div style="font-weight: 900;">{{'order.Date Placed'|translate}}<div style="font-weight: 100;margin:0 10px;">{{item.datePlaced|date}}</div></div>
-        <div style="font-weight: 900;">{{'order.Order Status'|translate }}<div style="font-weight: 100; margin:0 40px;">{{item.status}}</div></div>
+        <div style="font-weight: 900;">{{'order.Order Status'|translate }} <div style="font-weight: 100; margin:0 10px;">{{item.status}}</div></div>
         <div style="font-weight: 900;">{{'order.Total'|translate}} <div style="font-weight: 100;margin:0 10px;">{{item.totalPrice}}$</div></div>
-        <div style="font-weight: 900;">city  <div style="font-weight: 100;margin:0 10px;">{{item.city}}$</div></div>
-        <div style="font-weight: 900;">State  <div style="font-weight: 100;margin:0 10px;">{{item.state}}$</div></div>
-        <div style="font-weight: 900;">Street  <div style="font-weight: 100;margin:0 10px;">{{item.street}}$</div></div>
+        <div style="font-weight: 900;"> {{'main.city'|translate}}<div style="font-weight: 100;margin:0 10px;">{{item.city}}$</div></div>
+        <div style="font-weight: 900;"> {{'main.State'|translate}} <div style="font-weight: 100;margin:0 10px;">{{item.state}}$</div></div>
+        <div style="font-weight: 900;"> {{'main.Street'|translate}} <div style="font-weight: 100;margin:0 10px;">{{item.street}}$</div></div>
 
 
         <!-- <div style="font-weight: 900;">{{'order.Total'|translate}} <div style="font-weight: 100;margin:0 10px;">  <img [src]="item.barcodeImageUrl" alt="Barcode Image">

@@ -2,21 +2,21 @@
   <div class="empty" style="margin-top: 3rem;
   background-color: #e9e9e9a3;
   padding: 2rem;
+  margin-bottom: 2%;
   width: 74%;
   margin-left: 12rem;">
-  <h2 style="text-align: center;">{{'Your Amazon Cart is empty.'| translate}}</h2>
-  <p>our shopping basket lives to serve. Give it purpose - fill it with groceries, clothing, household supplies, electronics and more.
-    Continue shopping on the amazon.eg homepage, learn about Today's Deals, or visit your Wish List.</p>
+  <h2 style="text-align: center;">{{'cart.Your Cart is empty.'| translate}}</h2>
+  <p>{{'cart.our shopping basket'| translate}}</p>
   </div>
 
-  <section class="today_deals_container deal2" style="overflow-x:auto; background-color: white;">
+  <!-- <section class="today_deals_container deal2" style="overflow-x:auto; background-color: white;">
     <div class="today_deals_heading">
         <h3> Products</h3>
     </div>
-  
+   -->
         
         <!-- prd -->
-        <div class="gallerybox today_deals_product_list gall1"> 
+        <!-- <div class="gallerybox today_deals_product_list gall1"> 
             <div class="imgbox today_deals_product_item" *ngFor="let product of allProducts"> 
               <img *ngIf="product.productImages && product.productImages.length > 0" [src]="'data:image/jpg;base64,' + product.productImages[0]" >
               
@@ -60,10 +60,10 @@
                 <p><sup>EGP</sup>{{ product.price }}<sup>00</sup></p>
             </div>
         </div>
-     
+      -->
    
   
-  </section>
+  <!-- </section> -->
 </ng-container>
 
 <ng-template #notEmpty>

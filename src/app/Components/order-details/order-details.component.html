@@ -2,20 +2,20 @@
 <head>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 </head>
-<div class="container col-lg-6 col-sm-12" >
+<div class="container col-lg-6 col-sm-12" [dir]="'dir'|translate" >
     <h1>Order Details</h1>
     @for( orderitem of orderdetails; track orderitem.orderitemid)
     {
         <p style="margin-top: 2rem;padding-left: 21px;color: black;">Ordered in {{orderitem.datePlaced |date}}</p>
         <div class="item">
-            <img [src]="'data:image/jpg;base64,' +orderitem.productImage" class="col-3"/>
+            <img [src]="'data:image/jpg;base64,' +orderitem.productImage" class="col-3" style="margin-left: 3%;"/>
             <div class="details">
                 <p style="color: #067070;">{{orderitem.productname}}</p>
                 <!-- <p>Product Price : <span>{{orderitem.productPrice}}</span></p> -->
-                <p style="color: #067070;">{{orderitem.productDescription}}</p>
-                <p style="color: #067070;">number of items: {{orderitem.quantity}}</p>
-                <p style="color: red;">one unit price:<sup>EGP</sup>{{(orderitem.selectedPrice ?? 0)}}<sup>00</sup></p>                <!-- <p>{{orderitem.quantity}}</p> -->
-                <p style="color: red;">total element price:<sup>EGP</sup>{{(orderitem.quantity) * (orderitem.selectedPrice ?? 0)}}<sup>00</sup></p>
+                <!-- <p style="color: #067070;">{{orderitem.productDescription}}</p> -->
+                <p style="color: #067070;">{{'order.number of items'|translate}}: {{orderitem.quantity}}</p>
+                <p style="color: red;">{{'order.one unit price'|translate}}:<sup>IQD</sup>{{(orderitem.selectedPrice ?? 0)}}<sup>00</sup></p>                <!-- <p>{{orderitem.quantity}}</p> -->
+                <p style="color: red;">{{'order.total element price'|translate}}:<sup>IQD</sup>{{(orderitem.quantity) * (orderitem.selectedPrice ?? 0)}}<sup>00</sup></p>
                 <button style="    border: 1px solid #ddd;
                 border-radius: 5px;
                 padding: 4px 11px;

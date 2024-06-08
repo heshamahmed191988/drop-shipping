@@ -8,11 +8,12 @@ import { AuthService } from '../../services/auth.service';
 import { BehaviorSubject, debounceTime } from 'rxjs';
 import { AddressSharedService } from '../../services/address-shared.service';
 import { Router } from '@angular/router';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-address',
   standalone: true,
-  imports: [CommonModule, FormsModule, ReactiveFormsModule],
+  imports: [CommonModule, FormsModule, ReactiveFormsModule,TranslateModule],
   templateUrl: './address.component.html',
   styleUrls: ['./address.component.css']
 })
