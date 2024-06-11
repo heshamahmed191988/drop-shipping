@@ -4861,6 +4861,7 @@ resetOrder(): void {
   this.orderErrorMessage = '';
   this.isOrderProcessing = false;
   this.isCreatingOrder = false;
+  this.selectedPrices = [];
 }
 
 createOrderCart(addressId: number): void {

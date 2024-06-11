@@ -30,6 +30,7 @@ import { SharedService } from '../../services/shared.service';
   imports: [CommonModule,FormsModule, ReviewComponent,SafeBase64Pipe,TranslateModule,NgxPayPalModule,FormsModule,RouterLink,NgxSpinnerModule]
 })
 export class ProductDetailsComponent implements OnInit,OnChanges,OnDestroy{
+ 
   selectedSliderPrice: number = 0;
   earning: number = 0;
   public Quantity: number = 1;

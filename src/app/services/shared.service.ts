@@ -6,6 +6,8 @@ import { Iproduct } from '../models/iproduct';
   providedIn: 'root'
 })
 export class SharedService {
+  ordertype:number = 0;
+
   selectedSliderPrice: number = 0;
   earning: number = 0;
   quantity: number = 1;
@@ -54,6 +56,7 @@ export class SharedService {
     this.UserIdcart = data.UserIdcart;
     this.product = data.product;
     this.selectedPrices = data.selectedPrices;
+    this.ordertype=data.orderType;
   }
 
   getOrderData() {
@@ -77,6 +80,35 @@ export class SharedService {
       UserIdcart: this.UserIdcart,
       product: this.product,
       selectedPrices: this.selectedPrices,
+      ordertype:this.ordertype,
+
     }
+  }
+  resetOrderData() {
+    this.selectedSliderPrice = 0;
+    this.earning = 0;
+    this.quantity = 1;
+    this.userId = "";
+    this.addressId = 0;
+    this.currentId = 0;
+    this.orderErrorMessage = '';
+
+    this.isOrderProcessing = false;
+    this.isCreatingOrder = false;
+    this.order = {
+      userID: '',
+      orderQuantities: [],
+      addressId: 0,
+      deliveryPrice: 5000,
+      earning: 20,
+      selectedPrice: 0,
+    };
+
+    //cart part
+    this.UserIdcart = "";
+    this.product = [];
+    this.selectedPrices = [];
+    this.ordertype=0;
+
   }
 }

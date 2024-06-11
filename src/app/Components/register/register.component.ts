@@ -2,18 +2,21 @@
 
 import { Component } from '@angular/core';
 import { AuthService } from '../../services/auth.service';
-import { FormsModule } from '@angular/forms';
+import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { CommonModule, NgClass } from '@angular/common';
 
 @Component({
   selector: 'app-register',
   standalone: true,
-  imports: [FormsModule, CommonModule,NgClass],
+  imports: [FormsModule, CommonModule,NgClass,ReactiveFormsModule,NgClass],
   templateUrl: './register.component.html',
   styleUrls: ['./register.component.css']
 })
 export class RegisterComponent {
+ 
+  registerForm: FormGroup;
+ 
   username = '';
   password = '';
   email = '';
@@ -21,16 +24,39 @@ export class RegisterComponent {
   roleName = 'User';
   errorMessage = '';
 
-  constructor(private authService: AuthService, private router: Router) {}
+  constructor(private authService: AuthService, private router: Router, private formBuilder: FormBuilder) {
+    this.registerForm = this.formBuilder.group({
+      username: ['', [Validators.required, Validators.minLength(3)]],
+      password: ['', [Validators.required, Validators.minLength(6)]],
+      confirmPassword: ['', Validators.required],
+      email: ['', [Validators.required, Validators.email]],
+      roleName: ['User']
+    }, {
+      validator: this.mustMatch('password', 'confirmPassword')
+    });
+  }
+  private mustMatch(controlName: string, matchingControlName: string) {
+    return (formGroup: FormGroup) => {
+      const control = formGroup.controls[controlName];
+      const matchingControl = formGroup.controls[matchingControlName];
 
-  register(): void {
-    const user = {
-      userName: this.username,
-      password: this.password,
-      email: this.email,
-      confirmPassword: this.confirmPassword,
-      roleName: this.roleName,
+      if (matchingControl.errors && !matchingControl.errors['mustMatch']) {
+        return;
+      }
+
+      if (control.value !== matchingControl.value) {
+        matchingControl.setErrors({ mustMatch: true });
+      } else {
+        matchingControl.setErrors(null);
+      }
     };
+  }
+  register(): void {
+    if (this.registerForm.invalid) {
+      return;
+    }
+
+    const user = this.registerForm.value;
 
     this.authService.register(user).subscribe({
       next: (response) => {

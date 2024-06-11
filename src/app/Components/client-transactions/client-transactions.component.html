@@ -12,7 +12,7 @@
       <tbody>
         <tr *ngFor="let transaction of transactions; let i = index">
           <td>{{ (currentPage - 1) * pageSize + i + 1 }}</td>
-          <td>{{ transaction.amount | currency }}</td>
+          <td>IQD {{ transaction.amount }}</td>
           <td>{{ transaction.status }}</td>
           <td>{{ transaction.withdrawalMethod }}</td>
           <td>{{ transaction.datePlaced ? (transaction.datePlaced | date: 'short') : 'N/A' }}</td>

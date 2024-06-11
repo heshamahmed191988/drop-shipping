@@ -1,6 +1,6 @@
 import { ApplicationConfig, EnvironmentProviders, Provider, importProvidersFrom } from '@angular/core';
 import { provideRouter } from '@angular/router';
-
+import { HashLocationStrategy,LocationStrategy } from '@angular/common';
 import { routes } from './app.routes';
 import { HttpClient, HttpClientModule, provideHttpClient, withFetch } from '@angular/common/http';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
@@ -19,7 +19,7 @@ export const appConfig: ApplicationConfig = {
   })),importProvidersFrom(NgxSpinnerModule.forRoot({ type: 'square-jelly-box' })),
   provideAnimations(),
   importProvidersFrom([BrowserAnimationsModule]),
-  
+  {provide:LocationStrategy,useClass:HashLocationStrategy}
 ]
 
 

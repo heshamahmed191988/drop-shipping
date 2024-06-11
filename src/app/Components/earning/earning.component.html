@@ -1,32 +1,44 @@
-<div *ngIf="UserId" class="container mt-md-5 mb-5 " [dir]="'dir' | translate">
+<div *ngIf="UserId" class="container mt-md-5 mb-5">
   <div class="card">
-    <h2 class="mb-4 text-center">{{ 'main.Your Earning' | translate }}  {{ earning }}</h2>
-    <form (ngSubmit)="requestWithdrawal()" class="mt-4">
+    <h2 class="mb-4 text-center">{{ 'main.Your Earning' | translate }} {{ earning }}</h2>
+    <form [formGroup]="withdrawalForm" (ngSubmit)="requestWithdrawal()" class="mt-4">
       <div class="form-group">
         <label for="amount">{{ 'main.Withdrawal Amount' | translate }}</label>
-        <input type="number" id="amount" name="amount" [(ngModel)]="withdrawalAmount" class="form-control" required>
-      </div>
+        <input type="number" id="amount" formControlName="withdrawalAmount" class="form-control" required>
+        
+        <div *ngIf="formErrors['withdrawalAmount']" class="text-danger">
+          {{ formErrors['withdrawalAmount'] }}
+        </div>
       
+      </div>
+
+
       <div class="form-group">
         <label for="method">{{ 'main.Withdrawal Method' | translate }}</label>
-        <select id="method" name="method" [(ngModel)]="withdrawalMethod" class="form-control" required>
-            <option value="مصرف الرافدين">مصرف الرافدين</option>
-            <option value="زين كاش">زين كاش</option>
+        <select id="method" formControlName="withdrawalMethod" class="form-control" required>
+          <option value="مصرف الرافدين">مصرف الرافدين</option>
+          <option value="زين كاش">زين كاش</option>
         </select>
-    </div>
-    <div class="form-group">
-      <label for="phone">{{ 'main.numberOfWithdrawl' | translate }}</label>
-      <input type="text" id="num" name="number" [(ngModel)]="numberOfWithdrawl" class="form-control" required>
-    </div>
+      </div>
+
+      <div class="form-group">
+        <label for="phone">{{ 'main.numberOfWithdrawl' | translate }}</label>
+        <input type="text" formControlName="numberOfWithdrawl" class="form-control" required>
+      </div>
+
       <div class="form-group">
         <label for="phone">{{ 'main.Phone Number' | translate }}</label>
-        <input type="text" id="phone" name="phone" [(ngModel)]="phoneNumber" class="form-control" required>
+        <input type="text" formControlName="phoneNumber" class="form-control" required>
+      </div>
+
+      <button type="submit" class="btn btn-primary btn-block" [disabled]="withdrawalForm.invalid">{{ 'main.Request Withdrawal' | translate }}</button>
+      <div *ngIf="formErrors['success']" class="mt-4 alert alert-success" role="alert">
+        {{ formErrors['success'] }}
+      </div>
+      <div *ngIf="formErrors['success']" class="text-success font-weight-bold" style="font-size: 25px;">
+        {{ formErrors['success'] }}
       </div>
       
-      <button type="submit" class="btn btn-primary btn-block">{{ 'main.Request Withdrawal' | translate }}</button>
-    </form>
-    <div *ngIf="errorMessage" class="mt-4 alert alert-danger" role="alert">
-      {{ errorMessage }}
-    </div>
+      </form>
+  
   </div>
-</div>

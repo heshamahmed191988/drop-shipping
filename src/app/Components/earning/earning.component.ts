@@ -1,45 +1,49 @@
 import { Component, OnInit } from '@angular/core';
 import { UserService } from '../../services/user.service';
 import { AuthService } from '../../services/auth.service';
-import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import { CommonModule, NgClass } from '@angular/common';
+import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { catchError, of, tap } from 'rxjs';
 import { TranslateModule } from '@ngx-translate/core';
-
+import { ChangeDetectorRef } from '@angular/core';
 @Component({
   selector: 'app-earning',
   standalone: true,
-  imports: [CommonModule,FormsModule,TranslateModule],
+  imports: [CommonModule,FormsModule,TranslateModule,ReactiveFormsModule,NgClass],
   templateUrl: './earning.component.html',
   styleUrl: './earning.component.css'
 })
 export class EarningComponent implements OnInit {
   UserId: string = "";
   earning!: number;
-  withdrawalAmount: number = 0;
-  withdrawalMethod: string = "";
-  phoneNumber: string = "";
-  status:string = "Pending";
-  numberOfWithdrawl:number = 0;
+  withdrawalForm: FormGroup;
   withdrawalSubmitted: boolean = false;
-  errorMessage: string = '';
-  errorMessagesuccess:string = '';
-    constructor(private _userservice: UserService,private _AuthService: AuthService,private _router: Router){
+  formErrors: { [key: string]: string } = {};
 
+  constructor(
+    private _userService: UserService,
+    private _authService: AuthService,
+    private formBuilder: FormBuilder,
+    private cdr: ChangeDetectorRef
+  ) {
+    this.withdrawalForm = this.formBuilder.group({
+      withdrawalAmount: [0, Validators.required],
+      withdrawalMethod: ['', Validators.required],
+      phoneNumber: ['',[Validators.required, Validators.pattern('^[0-9]*$')]],
+      numberOfWithdrawl: [0, Validators.required]
+    });
   }
+
   ngOnInit(): void {
-    
     this.getUserEarning();
   }
 
-
-
   getUserEarning() {
-    this._AuthService.getCurrentUserId().subscribe(
+    this._authService.getCurrentUserId().subscribe(
       user => {
         this.UserId = user.userId;
-        this._userservice.getUserEarning(this.UserId).subscribe(
+        this._userService.getUserEarning(this.UserId).subscribe(
           data => {
             this.earning = data;
           },
@@ -53,30 +57,39 @@ export class EarningComponent implements OnInit {
       }
     );
   }
+
   requestWithdrawal() {
-    if (this.withdrawalAmount > this.earning) {
-      this.errorMessage = 'Withdrawal amount exceeds earnings.';
+    console.log('Form validity:', this.withdrawalForm.valid); // Check form validity
+    this.formErrors = {};
+    if (this.withdrawalForm.invalid) {
+      console.log('Form is invalid, displaying error messages.');
+      this.validateForm(this.withdrawalForm);
       return;
     }
   
-    this._userservice.requestWithdrawal({
+    if (this.withdrawalForm.get('withdrawalAmount')?.value > this.earning) {
+      console.log('Withdrawal amount exceeds earnings, displaying error message.');
+      this.formErrors['withdrawalAmount'] = 'عفوا رصيدك الحالى اقل من القيمة المراد سحبها';
+      return;
+    }
+  
+    this._userService.requestWithdrawal({
       userId: this.UserId,
-      requestedAmount: this.withdrawalAmount,
-      withdrawalMethod: this.withdrawalMethod,
-      phoneNumber: this.phoneNumber,
-      status:this.status,
-      numberOfWithdrawl:this.numberOfWithdrawl,
+      requestedAmount: this.withdrawalForm.get('withdrawalAmount')?.value,
+      withdrawalMethod: this.withdrawalForm.get('withdrawalMethod')?.value,
+      phoneNumber: this.withdrawalForm.get('phoneNumber')?.value,
+      status: "Pending",
+      numberOfWithdrawl: this.withdrawalForm.get('numberOfWithdrawl')?.value,
     }).pipe(
       tap(() => {
         // Withdrawal request successful
         console.log('Withdrawal request successful');
-        this.withdrawalSubmitted = true; 
-        this.earning -= this.withdrawalAmount;
-        
-        // Reset withdrawal form fields
-        this.withdrawalAmount = 0;
-        this.withdrawalMethod = "";
-        this.phoneNumber = "";
+        this.withdrawalSubmitted = true;
+        this.earning -= this.withdrawalForm.get('withdrawalAmount')?.value;
+        // Reset withdrawal form
+        this.withdrawalForm.reset();
+        // Set success message
+        this.formErrors['success'] = ' تهانينا لقد نجحت عملية السحب سوف يتم تاكيد العملية فى اقرب وقت ';
       }),
       catchError(error => {
         // Withdrawal request failed, handle error
@@ -86,11 +99,42 @@ export class EarningComponent implements OnInit {
     ).subscribe(response => {
       if (response) {
         // Display success message
-        this.errorMessagesuccess = response.message; // Assuming the server responds with a message field
+        console.log('Withdrawal request successful');
+        this.formErrors['success'] = ' تهانينا لقد نجحت عملية السحب سوف يتم تاكيد العملية فى اقرب وقت ';
       }
     });
-
-    this.getUserEarning();
   }
   
+  
+
+  validateForm(form: FormGroup) {
+    for (const field in form.controls) {
+      const control = form.get(field);
+      if (control instanceof FormGroup) {
+        this.validateForm(control);
+      } else {
+        if (control && control.invalid) {
+          const messages = this.validationMessages[field];
+          for (const key in control.errors) {
+            this.formErrors[field] = messages[key];
+          }
+        }
+      }
+    }
+  }
+
+  validationMessages: { [key: string]: { [key: string]: string } } = {
+    'withdrawalAmount': {
+      'required': 'Withdrawal amount is required.'
+    },
+    'withdrawalMethod': {
+      'required': 'Withdrawal method is required.'
+    },
+    'phoneNumber': {
+      'required': 'Phone number is required.'
+    },
+    'numberOfWithdrawl': {
+      'required': 'Number of withdrawal is required.'
+    }
+  };
 }

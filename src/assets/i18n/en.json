@@ -1,9 +1,4 @@
-{
-    
-   
-   
-    
-    "dir":"ltr",
+{   "dir":"ltr",
     "header":{
         "egypt":"egypt",
         "Deliver": "deliver to",
@@ -283,7 +278,8 @@
         "Street":"Street",
         "client Name":"Client Name",
         "The specific Address":"The specific Address",
-        "Add Address":"Add Address"
+        "Add Address":"Add Address",
+        "Create Your Order":"Create Your Order"
 
 
 

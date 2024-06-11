@@ -123,7 +123,7 @@
                                       <span>Min Price:</span>
                                       <span>{{ item.minPrice }}</span>
                                     </div>
-                                    <input type="range" [min]="item.minPrice" [max]="item.maxPrice" [(ngModel)]="selectedPrices[i]" (input)="onPriceChange($event, i); calculateEarning(i)" class="slider" id="priceRange">
+                                    <!-- <input type="range" [min]="item.minPrice" [max]="item.maxPrice" [(ngModel)]="selectedPrices[i]" (input)="onPriceChange($event, i); calculateEarning(i)" class="slider" id="priceRange"> -->
                                     <div class="price-label">
                                       <span>Max Price:</span>
                                       <span>{{ item.maxPrice }}</span>
@@ -158,7 +158,7 @@
                 
                       <td>
                         <!-- {{ item.price | currency }} -->
-                        <span class=" text-muted" style="font-size:20px;">{{item.price}}$</span>
+                        <span class=" text-muted" style="font-size:20px;">{{item.price}} IQD</span>
                       </td>
                       <td width="65">
                         <!-- <input type="checkbox" [(ngModel)]="item.id"> -->
@@ -218,15 +218,15 @@
     </div>
   </div>
 
-
+<!-- 
   <section class="today_deals_container deal2" style="overflow-x:auto; background-color: white;">
     <div class="today_deals_heading">
         <h3> Products related to this item</h3>
-    </div>
+    </div> -->
   
         
         <!-- prd -->
-        <div class="gallerybox today_deals_product_list gall1"> 
+        <!-- <div class="gallerybox today_deals_product_list gall1"> 
             <div class="imgbox today_deals_product_item" *ngFor="let product of randomProducts"> 
               <img *ngIf="product.productImages && product.productImages.length > 0" [src]="'data:image/jpg;base64,' + product.productImages[0]" >
                 <div class="discount_Contaienr" >
@@ -266,11 +266,11 @@
                        <i class="fas fa-star" style="color:#E67A00;"></i> <i class="fas fa-star" style="color:#E67A00;"></i> <i class="fas fa-star" style="color:#E67A00;"></i> <i class="fas fa-star" style="color:#E67A00;"></i> <i class="fas fa-star" style="color:#E67A00;"></i>
                      }
                 </div>
-                <p><sup>EGP</sup>{{ product.price }}<sup>00</sup></p>
+                <p><sup>EGP</sup>{{ product.price }}<sup></sup></p>
             </div>
         </div>
      
    
   
-  </section>
+  </section> -->
 </ng-template>

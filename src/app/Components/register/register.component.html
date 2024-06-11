@@ -3,31 +3,47 @@
     <div class="col-md-6">
       <div class="amazon-icon-container">
         <!-- <img src="https://logos-world.net/wp-content/uploads/2020/04/Amazon-Logo.png"> -->
-       </div>
+      </div>
       <div class="card">
         <div class="card-header">
           <h3 class="text-center">Create Account</h3>
         </div>
         <div class="card-body">
-          <form (ngSubmit)="register()">
+          <form [formGroup]="registerForm" (ngSubmit)="register()">
             <div class="form-group">
               <label for="username">Username:</label>
-              <input type="text" class="form-control" id="username" [(ngModel)]="username" name="username" required>
+              <input type="text" class="form-control" id="username" formControlName="username" [required]="registerForm.controls['username'].errors?.['required']">
+              <div *ngIf="registerForm.controls['username'].touched && registerForm.controls['username'].invalid" class="text-danger">
+                <div *ngIf="registerForm.controls['username'].errors?.['required']">Username is required.</div>
+                <div *ngIf="registerForm.controls['username'].errors?.['minlength']">Username must be at least 3 characters long.</div>
+              </div>
             </div>
             <div class="form-group">
               <label for="password">Password:</label>
-              <input type="password" class="form-control" id="password" [(ngModel)]="password" name="password" required>
+              <input type="password" class="form-control" id="password" formControlName="password" [required]="registerForm.controls['password'].errors?.['required']">
+              <div *ngIf="registerForm.controls['password'].touched && registerForm.controls['password'].invalid" class="text-danger">
+                <div *ngIf="registerForm.controls['password'].errors?.['required']">Password is required.</div>
+                <div *ngIf="registerForm.controls['password'].errors?.['minlength']">Password must be at least 6 characters long.</div>
+              </div>
             </div>
             <div class="form-group">
               <label for="confirmPassword">Confirm Password:</label>
-              <input type="password" class="form-control" id="confirmPassword" [(ngModel)]="confirmPassword" name="confirmPassword" required>
+              <input type="password" class="form-control" id="confirmPassword" formControlName="confirmPassword" [required]="registerForm.controls['confirmPassword'].errors?.['required']">
+              <div *ngIf="registerForm.controls['confirmPassword'].touched && registerForm.controls['confirmPassword'].invalid" class="text-danger">
+                <div *ngIf="registerForm.controls['confirmPassword'].errors?.['required']">Confirm Password is required.</div>
+                <div *ngIf="registerForm.controls['confirmPassword'].errors?.['mustMatch']">Passwords must match.</div>
+              </div>
             </div>
             <div class="form-group">
               <label for="email">Email:</label>
-              <input type="email" class="form-control" id="email" [(ngModel)]="email" name="email" required>
+              <input type="email" class="form-control" id="email" formControlName="email" [required]="registerForm.controls['email'].errors?.['required']">
+              <div *ngIf="registerForm.controls['email'].touched && registerForm.controls['email'].invalid" class="text-danger">
+                <div *ngIf="registerForm.controls['email'].errors?.['required']">Email is required.</div>
+                <div *ngIf="registerForm.controls['email'].errors?.['mustMatch']">Invalid email format.</div>
+              </div>
             </div>
             <div *ngIf="errorMessage" class="alert alert-danger" [innerHTML]="errorMessage"></div>
-            <button type="submit" class="btn btn-success btn-block registerbtn">Register</button>
+            <button type="submit" class="btn btn-success btn-block registerbtn" [disabled]="registerForm.invalid">Register</button>
           </form>
         </div>
       </div>

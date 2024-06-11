@@ -126,15 +126,16 @@
             <span>{{'detail.Min Price'|translate}}:</span>
             <span>{{ currentProduct.minPrice }}</span>
           </div>
-          <input type="range" [min]="currentProduct.minPrice" [max]="currentProduct.maxPrice" [(ngModel)]="selectedSliderPrice" (input)="onPriceChange($event)" class="slider" id="priceRange">
+          <input [hidden]="true" type="range" [min]="currentProduct.minPrice" [max]="currentProduct.maxPrice" [(ngModel)]="selectedSliderPrice" (input)="onPriceChange($event)" class="slider" id="priceRange">
           <div class="price-label">
             <span>{{'detail.Max Price'|translate}}:</span>
             <span>{{ currentProduct.maxPrice }}</span>
           </div>
           <div class="selected-price">
-            <span>{{'detail.Selected Price'|translate}}:</span>
+            <span class="price-label">{{'detail.Selected Price' | translate}}:</span>
             <input type="number" [(ngModel)]="selectedSliderPrice" (input)="onInputPriceChange()" class="form-control" id="selectedPriceInput" placeholder="Selected Price" [attr.min]="currentProduct.minPrice !== undefined ? currentProduct.minPrice : null" [attr.max]="currentProduct.maxPrice !== undefined ? currentProduct.maxPrice : null">
           </div>
+          
           <div> 
             <span>{{'detail.Earning'|translate}}:</span>
             <span>{{ earning }}</span>
@@ -150,15 +151,15 @@
                <br>{{'detail.Cash on'|translate}}<br> {{'detail.Delivery'|translate}}  
                <!-- <br>Cash on<br> Delivery      -->
           </div>
-          <div class="paymentchild">
+          <!-- <div class="paymentchild">
             <img src="https://m.media-amazon.com/images/G/42/A2I-Convert/mobile/IconFarm/icon-returns._CB403797073_.png">
                <br>15 {{'detail.days'|translate}} <br>    
               {{'detail.Returnable'|translate}}     
-          </div>
-          <div class="paymentchild">
+          </div> -->
+          <!-- <div class="paymentchild">
             <img src="https://m.media-amazon.com/images/G/42/A2I-Convert/mobile/IconFarm/trust_icon_free_shipping_81px._CB590597072_.png">
                <br> {{'detail.free'|translate}} <br>   {{'detail.Delivery'|translate}}        
-          </div>
+          </div> -->
           <div class="paymentchild">
             <img src="https://m.media-amazon.com/images/G/42/A2I-Convert/mobile/IconFarm/icon-secure-transaction._CB414468582_.png">
                <br>{{'detail.transaction'|translate}}<br> {{'detail.Secure'|translate}}           
@@ -196,7 +197,7 @@
   <div class="last col-md-12 col-lg-2 mt-2 mx-lg-3 " style="width: auto;">
     <div class="card col-12 ">
         <ul class="list-group list-group-flush">
-          <li class="list-group-item text-center"><h5><sup>IQD</sup> {{currentProduct.price*Quantity}}<sup>00</sup></h5></li>
+          <li class="list-group-item text-center"><h5><sup>IQD</sup> {{currentProduct.price*Quantity}}<sup></sup></h5></li>
           <li class="list-group-item text-center"> {{'detail.payment details'|translate}}</li>
           <li class="list-group-item"> <div class="mb-3">
            
@@ -286,7 +287,7 @@
           <i class="far fa-star" style="color:#E67A00;"></i> <i class="far fa-star" style="color:#E67A00;"></i> <i class="far fa-star" style="color:#E67A00;"></i> <i class="far fa-star" style="color:#E67A00;"></i> <i class="far fa-star" style="color:#E67A00;"></i>
         }
         <span>{{reviewlength}}</span>
-        <p class="pname"><sup>IQD</sup><span style="font-size: 25px;">{{product.price }}</span><sup>00</sup></p>
+        <p class="pname"><sup>IQD</sup><span style="font-size: 25px;">{{product.price }}</span><sup></sup></p>
       </div>
     </div>
   </div>

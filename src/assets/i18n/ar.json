@@ -1,9 +1,4 @@
-{
-    
-
-    
-    
-    "dir":"rtl",
+{"dir":"rtl",
 
     "header":{
         "egypt":"مصر",
@@ -285,7 +280,8 @@
         "Street":"المنطقة",
         "client Name":"اسم العميل",
         "The specific Address":"العنوان بالتفصيل",
-        "Add Address":"اضف عنوان"
+        "Add Address":"اضف عنوان",
+        "Create Your Order":"اضغط لأنشاء طلبك"
 
 
            
