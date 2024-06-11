@@ -203,6 +203,7 @@ calculateEarning(index: number): number {
     orderData.selectedPrices=this.selectedPrices;
     orderData.product=this.product;
     orderData.UserIdcart=this.UserId;
+    this.sharedDataService.resetProductOrderData(orderData);
     this.sharedDataService.updateOrderData(orderData);
   }
 

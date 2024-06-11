@@ -143,6 +143,7 @@ orderErrorMessage: string = '';
     orderData.deliveryPrice=this.order.deliveryPrice;
     //orderData.selectedPrice=this.order.selectedPrice;
     orderData.currentId=this.currentId;
+    this.sharedDataService.resetcartOrderData(orderData);
     this.sharedDataService.updateOrderData(orderData);
   }
 
@@ -157,14 +158,14 @@ orderErrorMessage: string = '';
     orderData.userId=this.UserId  ;
     orderData.addressId=this.adressId  ;
     orderData.AddressId=this.order.addressId;
-    this.orderErrorMessage= orderData.orderErrorMessage;
-    this.isOrderProcessing = orderData.isOrderProcessing;
-    this.isCreatingOrder=orderData.isCreatingOrder;
-    this.order.userID=orderData.userID;
-    this.order.orderQuantities=orderData.orderQuantities;
-    this.order.deliveryPrice=orderData.deliveryPrice;
-    this.order.selectedPrice=orderData.selectedPrice;
-    this.currentId=orderData.currentId;
+    orderData.orderErrorMessage=this.orderErrorMessage;
+    orderData.isOrderProcessing= this.isOrderProcessing;
+    orderData.isCreatingOrder=this.isCreatingOrder;
+    orderData.userID=this.order.userID;
+    orderData.orderQuantities=this.order.orderQuantities;
+    orderData.deliveryPrice=this.order.deliveryPrice;
+    orderData.selectedPrice=this.order.selectedPrice;
+    orderData.currentId=this.currentId;
     this.sharedDataService.updateOrderData(orderData);
   }
 

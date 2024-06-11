@@ -84,17 +84,17 @@ export class SharedService {
 
     }
   }
-  resetOrderData() {
-    this.selectedSliderPrice = 0;
-    this.earning = 0;
-    this.quantity = 1;
-    this.userId = "";
-    this.addressId = 0;
-    this.currentId = 0;
-    this.orderErrorMessage = '';
+  resetProductOrderData(data: any) {
+    this.selectedSliderPrice =data.selectedPrice=0;
+    this.earning =data.earning= 0;
+    this.quantity =data.quantity= 1;
+    this.userId =data.userId= "";
+    this.addressId =data.addressId= 0;
+    this.currentId =data.currentId= 0;
+    this.orderErrorMessage =data.orderErrorMessage = '';
 
-    this.isOrderProcessing = false;
-    this.isCreatingOrder = false;
+    this.isOrderProcessing =data.isOrderProcessing= false;
+    this.isCreatingOrder =data.isCreatingOrder= false;
     this.order = {
       userID: '',
       orderQuantities: [],
@@ -105,10 +105,15 @@ export class SharedService {
     };
 
     //cart part
-    this.UserIdcart = "";
-    this.product = [];
-    this.selectedPrices = [];
-    this.ordertype=0;
-
+   
   }
+
+  resetcartOrderData(data: any) {
+    this.UserIdcart =data.UserIdcart= "";
+    this.product =data.product= [];
+    this.selectedPrices =data.selectedPrices= [];
+    this.ordertype=data.ordertype=0;
+  }
+
+
 }

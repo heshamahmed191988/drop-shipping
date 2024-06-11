@@ -4705,7 +4705,7 @@ private orderservice: OrderService) {
     }
 
   ngOnInit(): void {
-    debugger
+    //debugger
     const orderData = this.sharedDataService.getOrderData();
     this.selectedSliderPrice = orderData.selectedSliderPrice;
     this.earning = orderData.earning;
@@ -4726,6 +4726,11 @@ private orderservice: OrderService) {
     this.selectedPrices=orderData.selectedPrices;
     this.UserIdcart=orderData.UserIdcart;
     this.product=orderData.product;
+    //this.sharedDataService.resetOrderData(orderData);
+    orderData.UserIdcart="";
+
+
+
 
     this.setUserid();
     this.addressForm = this.fb.group({
@@ -4770,6 +4775,7 @@ private orderservice: OrderService) {
   }
   onSubmit() {
   if (this.addressForm.valid) {
+    //debugger
     const address: Address = this.addressForm.value;
     this.addressService.createAddress(address).subscribe({
       next: (res) => {
